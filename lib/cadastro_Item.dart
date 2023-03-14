@@ -9,7 +9,8 @@ import 'item.dart';
 import 'database.dart';
 
 class Formulario extends StatefulWidget {
-  Formulario({Key? key, this.ItemSelecionado, this.db}) : super(key: key);
+  Formulario(mapNulo, {Key? key, this.ItemSelecionado, this.db})
+      : super(key: key);
   Map? ItemSelecionado;
   Database? db;
   @override
@@ -76,10 +77,12 @@ class _FormularioState extends State<Formulario> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        appBar: AppBar(leading: BackButton(onPressed: () {
-          Navigator.pop(context);
-        })),
+        backgroundColor: Color.fromARGB(255, 222, 234, 250),
+        appBar: AppBar(
+            title: const Text('Cadastre seu produto...'),
+            leading: BackButton(onPressed: () {
+              Navigator.pop(context);
+            })),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(10.0),
           child: Form(

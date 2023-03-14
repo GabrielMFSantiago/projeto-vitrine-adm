@@ -100,11 +100,12 @@ class SideMenuTitle extends StatelessWidget {
           ),
         ),
         // ----------------------------------
+
         ListTile(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => Formulario(),
+                builder: (context) => Formulario(null),
               ),
             );
           },

@@ -68,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute(
             builder: (context) => Formulario(
+                  null,
                   ItemSelecionado: ItemSelec,
                 ))).then((_) {
       setState(() {
@@ -79,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Color.fromARGB(255, 193, 216, 248),
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(

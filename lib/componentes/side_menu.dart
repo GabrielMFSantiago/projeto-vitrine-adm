@@ -16,7 +16,7 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: 288,
+        width: double.infinity,
         height: double.infinity,
         color: Color.fromARGB(255, 20, 65, 124),
         child: SafeArea(
@@ -27,7 +27,7 @@ class _SideMenuState extends State<SideMenu> {
                 cargo: "Gerente",
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
+                padding: const EdgeInsets.only(right: 190, top: 32, bottom: 16),
                 child: Text(
                   "Escolha uma opção:".toUpperCase(),
                   style: Theme.of(context)

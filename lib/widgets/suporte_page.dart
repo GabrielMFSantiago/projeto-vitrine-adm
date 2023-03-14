@@ -13,28 +13,43 @@ class _SuportePageState extends State<SuportePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 20, 65, 124),
+      backgroundColor: Color.fromARGB(255, 193, 216, 248),
       appBar: AppBar(
           leading: BackButton(onPressed: () {
             Navigator.pop(context);
           }),
           title: Text('Escolha uma forma de contato:')),
       body: Container(
-        child: Center(
-          child: Text(
-            'Tel: (22)99878-6284 \nTel: (22)99282-3204 \n\nEmail: danilloneto98@gmail.com',
-            textDirection: TextDirection.ltr,
-            style: TextStyle(
-                height: 2,
-                fontSize: 30,
-                fontStyle: FontStyle.italic,
-                color: Colors.white),
-          ),
+        padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 100, left: 35),
+              child: Row(
+                children: [
+                  Image.asset("images/logo.png"),
+                ],
+              ),
+            ),
+            const Center(
+              child: Text(
+                'Telefones: \n(22)99878-6284 \n(22)99282-3204 \n\nE-mails: \ndanilloneto98@gmail.com\ngabrielmoreirafonseca97@gmail.com ',
+                textDirection: TextDirection.ltr,
+                style: TextStyle(
+                    height: 2,
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic,
+                    color: Color.fromARGB(255, 0, 0, 0)),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-}
+
   //  body: Container(
-     //     child: Image.asset("images/btnfoguete.png"),
-     //   )
+  //     child: Image.asset("images/btnfoguete.png"),
+  //   )
+}
