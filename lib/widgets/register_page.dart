@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:vitrine/widgets/verificacaco_email.dart';
+import 'package:vitrine/widgets/verificacao_email.dart';
 import 'package:vitrine/utils/fire_auth.dart';
 import 'package:vitrine/utils/validator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
+  final String _userId;
+  final String? _lojaNome;
+
+  RegisterPage({Key? key, required String userId, String? lojaNome})
+      : _userId = userId,
+        _lojaNome = lojaNome,
+        super(key: key);
+
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _RegisterPageState createState() => _RegisterPageState(_userId, _lojaNome);
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final String _userId;
+  final String? _lojaNome;
+  _RegisterPageState(this._userId, this._lojaNome);
+
   final _registerFormKey = GlobalKey<FormState>();
 
   final _nomelojaTextController = TextEditingController();
@@ -31,6 +44,23 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool _isProcessing = false;
 
+  Future<void> _createLojaDocument(
+      String userId, String nomeLoja, String cnpj, String endereco, String nomeProprietario, String telefone) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    try {
+      await users.doc(userId).set({
+        'nome': nomeLoja,
+        'cnpj': cnpj,
+        'endereco': endereco,
+        'nomeProprietario': nomeProprietario,
+        'telefone': telefone,
+      });
+    } catch (e) {
+      print('Erro ao criar documento da loja: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -44,9 +74,13 @@ class _RegisterPageState extends State<RegisterPage> {
         _focusPassword.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 240, 231, 221),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
-          title: Text('Cadastrando sua loja...'),
+          title: Text(
+            'Cadastrando sua loja...',
+            style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+          ),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -72,9 +106,13 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16.0),
+
                       TextFormField(
                         controller: _cnpjTextController,
                         focusNode: _focusCnpj,
@@ -88,6 +126,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderSide: const BorderSide(
                               color: Colors.red,
                             ),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
                       ),
@@ -107,6 +148,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -118,12 +162,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           nomepropietario: value,
                         ),
                         decoration: InputDecoration(
-                          hintText: "Nome do Propietário",
+                          hintText: "Nome do Proprietário",
                           errorBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
                             borderSide: const BorderSide(
                               color: Colors.red,
                             ),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
                       ),
@@ -133,7 +180,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller: _telefoneTextController,
                         focusNode: _focusTelefone,
                         validator: (value) => Validator.validateTelefone(
-                          //ver validador
                           telefone: value,
                         ),
                         decoration: InputDecoration(
@@ -143,6 +189,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderSide: const BorderSide(
                               color: Colors.red,
                             ),
+                          ),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
                       ),
@@ -162,6 +211,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -180,9 +232,11 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
                         ),
                       ),
-                      //---------------------------------------------------BOTÂO REGISTRAR-SE-------------------------------------------------
                       const SizedBox(height: 32.0),
                       _isProcessing
                           ? const CircularProgressIndicator()
@@ -197,6 +251,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           _isProcessing = true;
                                         });
 
+                                        // Registro de usuário
                                         User? user = await FireAuth
                                             .registerUsingEmailPassword(
                                           name: _nomelojaTextController.text,
@@ -204,6 +259,24 @@ class _RegisterPageState extends State<RegisterPage> {
                                           password:
                                               _passwordTextController.text,
                                         );
+
+                                        // Criação do documento da loja associado ao usuário
+                                        if (user != null) {
+                                          await _createLojaDocument(
+                                              user.uid,
+                                              _nomelojaTextController.text,
+                                              _cnpjTextController.text,
+                                              _enderecoTextController.text,
+                                              _nomepropietarioTextController.text,
+                                              _telefoneTextController.text);
+                                        }
+
+                                        // Salvar o nome da loja nas SharedPreferences (se necessário)
+                                        SharedPreferences prefs =
+                                            await SharedPreferences.getInstance();
+                                        await prefs.setString(
+                                            'loja_nome_$_userId',
+                                            _nomelojaTextController.text);
 
                                         setState(() {
                                           _isProcessing = false;
@@ -223,12 +296,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                     },
                                     child: const Text(
                                       'Registrar-se',
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
                                     ),
                                   ),
                                 ),
                               ],
-                            ) //----------------------------------------------------------------------------------------------------
+                            )
                     ],
                   ),
                 )

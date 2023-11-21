@@ -29,21 +29,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^1.0.4
-  firebase_storage: "^10.3.1"
-  firebase_auth: ^3.10.0
-  cloud_firestore: ^3.2.0
-  image_picker: ^0.8.4+11
+  firebase_core: ^2.11.0
+  firebase_storage: 
+  cloud_firestore:
+  image_picker: ^1.0.4
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.1
-  file_picker: ^4.5.1
+  file_picker: ^5.5.0
+  path_provider: ^2.0.14
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  image_picker_for_web: ^2.1.8
+  image_picker_for_web: ^3.0.1
   font_awesome_flutter: ^10.1.0
-  flutter_svg: ^0.17.4 #it helps us to use SVG
+  firebase_auth: ^4.5.0
+  #flutter_svg: #it helps us to use SVG
   #Firebase Database
   
 
@@ -75,14 +76,33 @@ flutter:
   - images/logo2.png
   - images/btnhome.png
   - images/btnlupa.png
-  - images/btnfavorito.png
+  - images/btndiamante.png
   - images/btncadastro.png
   - images/btnsuporte.png
   - images/btnreservas.png
   - images/btnopcao.png
   - images/btnsair.png
-  - images/btnfoguete.png
+  - images/background5.jpg
+  - images/LogoVitrine.png
+  - images/LogoVitrine2.png
+  - images/FotoPerfil.jpeg
+  - images/btnedicao.png
+  - images/btninfo.png
+  
   #   - images/a_dot_ham.jpeg
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/ic_launcher.png"
+
+  fonts:
+    - family: SecularOne
+      fonts:
+        - asset: assets/fonts/SecularOne-Regular.ttf
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

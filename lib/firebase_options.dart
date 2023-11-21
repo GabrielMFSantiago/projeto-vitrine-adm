@@ -23,7 +23,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -47,29 +50,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCNIlvCF01QiSZxiQAoJHqZSIjZCuR27ds',
-    appId: '1:421103918614:web:6f51908947e95c67281f37',
-    messagingSenderId: '421103918614',
-    projectId: 'vitrine-adm-14879',
-    authDomain: 'vitrine-adm-14879.firebaseapp.com',
-    storageBucket: 'vitrine-adm-14879.appspot.com',
+    apiKey: 'AIzaSyBv8YSNbasXrLMy8y7SqW0CeVByyHxMszE',
+    appId: '1:952286946774:web:d8eea4d8d5741c78ce7077',
+    messagingSenderId: '952286946774',
+    projectId: 'adm-vitrine-db',
+    authDomain: 'adm-vitrine-db.firebaseapp.com',
+    databaseURL: 'https://adm-vitrine-db-default-rtdb.firebaseio.com',
+    storageBucket: 'adm-vitrine-db.appspot.com',
+    measurementId: 'G-71W4H62ZXX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA7nb_qTEU-XAQq4aKAHq-3FTqQOOa2JBM',
-    appId: '1:421103918614:android:debc9ea16f9abc96281f37',
-    messagingSenderId: '421103918614',
-    projectId: 'vitrine-adm-14879',
-    storageBucket: 'vitrine-adm-14879.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDQqxFyNoiY9TPoRXRJkQzObYGKarS_0Yo',
-    appId: '1:421103918614:ios:f0f8597a8f74acc2281f37',
-    messagingSenderId: '421103918614',
-    projectId: 'vitrine-adm-14879',
-    storageBucket: 'vitrine-adm-14879.appspot.com',
-    iosClientId: '421103918614-srv108gvmr1bldi63erip1aon3i1bqre.apps.googleusercontent.com',
-    iosBundleId: 'com.example.vitrine',
+    apiKey: 'AIzaSyBscEMRTuWRoGxiqg9n-o0S9Xz_ZpSW55A',
+    appId: '1:952286946774:android:bcfb83c7902b5f1bce7077',
+    messagingSenderId: '952286946774',
+    projectId: 'adm-vitrine-db',
+    databaseURL: 'https://adm-vitrine-db-default-rtdb.firebaseio.com',
+    storageBucket: 'adm-vitrine-db.appspot.com',
   );
 }

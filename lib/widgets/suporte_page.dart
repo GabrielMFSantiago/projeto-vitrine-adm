@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../componentes/side_menu.dart';
 
 class SuportePage extends StatefulWidget {
@@ -13,26 +12,27 @@ class _SuportePageState extends State<SuportePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 193, 216, 248),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-          leading: BackButton(onPressed: () {
-            Navigator.pop(context);
-          }),
-          title: Text('Escolha uma forma de contato:')),
+        leading: BackButton(onPressed: () {
+          Navigator.pop(context);
+        }),
+        title: Text('Escolha uma forma de contato:'),
+      ),
       body: Container(
         padding: const EdgeInsets.only(left: 24.0, right: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 100, left: 35),
-              child: Row(
-                children: [
-                  Image.asset("images/logo.png"),
-                ],
-              ),
+            Align(
+              alignment: Alignment.center,
+              child: Image.asset("images/LogoVitrine2.png"),
             ),
-            const Center(
+            const SizedBox(
+                height:
+                    20),
+            Center(
               child: Text(
                 'Telefones: \n(22)99878-6284 \n(22)99282-3204 \n\nE-mails: \ndanilloneto98@gmail.com\ngabrielmoreirafonseca97@gmail.com ',
                 textDirection: TextDirection.ltr,
@@ -48,8 +48,4 @@ class _SuportePageState extends State<SuportePage> {
       ),
     );
   }
-
-  //  body: Container(
-  //     child: Image.asset("images/btnfoguete.png"),
-  //   )
 }
