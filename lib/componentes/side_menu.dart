@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitrine/database.dart';
 import 'side_menu_title.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -6,8 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class _SideMenuState extends State<SideMenu> {
   String? _imagePath;
   String? _lojaNome;
   late String _userId;
-
+  Database? db;
   @override
   void initState() {
     super.initState();
@@ -102,17 +101,17 @@ class _SideMenuState extends State<SideMenu> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Alterar Imagem de Perfil'),
-          content: Text('Você deseja alterar sua imagem de perfil?'),
+          title: const Text('Alterar Imagem de Perfil'),
+          content: const Text('Você deseja alterar sua imagem de perfil?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Alterar'),
+              child: const Text('Alterar'),
               onPressed: () {
                 _pickImage();
                 Navigator.of(context).pop();
@@ -126,11 +125,14 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
+     User? user = FirebaseAuth.instance.currentUser;
+     String ? userid = user?.uid;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Color.fromARGB(255, 0, 0, 0),
+        color: const Color.fromARGB(255, 0, 0, 0),
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +145,7 @@ class _SideMenuState extends State<SideMenu> {
                   child: Column(
                     children: [
                       ClipOval(
-                        child: Container(
+                        child: SizedBox(
                           width: 200,
                           height: 200,
                           child: _imagePath != null
@@ -157,10 +159,10 @@ class _SideMenuState extends State<SideMenu> {
                                 ),
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         _lojaNome ?? "Nome da Loja",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 24,
                         ),
@@ -179,7 +181,8 @@ class _SideMenuState extends State<SideMenu> {
                       .copyWith(color: Colors.white70),
                 ),
               ),
-              SideMenuTitle()
+               
+               SideMenuTitle(userid, db: db,)
             ],
           ),
         ),

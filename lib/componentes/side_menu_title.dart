@@ -1,27 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vitrine/cadastro_Item.dart';
-import 'package:vitrine/principal.dart';
-import 'package:vitrine/widgets/infoloja_page_OLD.dart';
-import 'package:vitrine/widgets/login_page.dart';
-import 'package:vitrine/widgets/register_page.dart';
+import 'package:vitrine/widgets/infoloja_page.dart';
 import 'package:vitrine/widgets/suporte_page.dart';
 import 'package:flutter/services.dart';
-
+import 'package:vitrine/database.dart';
 class SideMenuTitle extends StatelessWidget {
 
-  final String? userId;
-
-  const SideMenuTitle({
+  String? userId;
+  
+  SideMenuTitle(String? userid, {
     Key? key,
-    this.userId,
+    this.db
   }) : super(key: key);
-
+  
+  //List docs = [];
+  //List<bool> selectedLoja = List.generate(0, (_) => false);
+  Database? db;
+  
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
           child: Divider(
             color: Colors.white54,
             height: 1,
@@ -40,15 +41,15 @@ class SideMenuTitle extends StatelessWidget {
                 "images/btnhome.png",
               ),
             ),
-            title: Text(
+            title: const Text(
               "Home",
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             ),
           ),
         ),
 
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
           child: Divider(
             color: Colors.white12,
             height: 1,
@@ -65,13 +66,13 @@ class SideMenuTitle extends StatelessWidget {
               "images/btndiamante.png",
             ),
           ),
-          title: Text(
+          title: const Text(
             "Favoritos",
             style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
           child: Divider(
             color: Colors.white12,
             height: 1,
@@ -88,20 +89,20 @@ class SideMenuTitle extends StatelessWidget {
               "images/btnreservas.png",
             ),
           ),
-          title: Text(
+          title: const Text(
             "Reservas",
             style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
           child: Divider(
             color: Colors.white12,
             height: 1,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
           child: Divider(
             color: Colors.white12,
             height: 1,
@@ -110,10 +111,17 @@ class SideMenuTitle extends StatelessWidget {
 
         // ----------------------------------
         ListTile(
-          onTap: () {
+          onTap: () async {
+            User? user = FirebaseAuth.instance.currentUser;
+            //userId = user?.uid;
+            // Adicione esta linha para obter as informações da loja
+            
+            //Map<String, dynamic>? lojaInfo = await db?.getLojaInfo(userId!);
+            
+            // ignore: use_build_context_synchronously
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => InfoLojaPage(userId: userId),
+                builder: (context) => InfoLojaPage(userId: user?.uid,),
               ),
             );
           },
@@ -124,14 +132,14 @@ class SideMenuTitle extends StatelessWidget {
               "images/btninfo.png",
             ),
           ),
-          title: Text(
+          title: const Text(
             "Informações da Loja",
             style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           ),
         ),
 
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
           child: Divider(
             color: Colors.white12,
             height: 1,
@@ -143,7 +151,7 @@ class SideMenuTitle extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => SuportePage(),
+                builder: (context) => const SuportePage(),
               ),
             );
           },
@@ -154,13 +162,13 @@ class SideMenuTitle extends StatelessWidget {
               "images/btnsuporte.png",
             ),
           ),
-          title: Text(
+          title: const Text(
             "Suporte",
             style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20),
+        const Padding(
+          padding: EdgeInsets.only(left: 20),
           child: Divider(
             color: Colors.white12,
             height: 1,
@@ -173,19 +181,19 @@ class SideMenuTitle extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Deseja realmente sair?"),
+                  title: const Text("Deseja realmente sair?"),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop(); // Fechar o diálogo
                       },
-                      child: Text("Cancelar"),
+                      child: const Text("Cancelar"),
                     ),
                     TextButton(
                       onPressed: () {
                         SystemNavigator.pop(); // Fechar completamente o aplicativo
                       },
-                      child: Text("Sair"),
+                      child: const Text("Sair"),
                     ),
                   ],
                 );
@@ -200,7 +208,7 @@ class SideMenuTitle extends StatelessWidget {
                 "images/btnsair.png",
               ),
             ),
-            title: Text(
+            title: const Text(
               "Sair",
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             ),

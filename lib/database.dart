@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vitrine/Loja.dart';
 import 'item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -68,6 +69,39 @@ class Database {
       print('Erro ao atualizar o Item: $e');
     }
   }
+
+Future<void> editarLoja(String id, Loja j) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    print("id -----> $id");
+    final Loja = <String, dynamic>{
+      "nomeitem": j.nome,
+      "cnpj": j.cnpj,
+      "endereco": j.endereco,
+      "nomeProprietario": j.nomeProprietario,
+      "telefone": j.telefone,
+      "userLoja": j.userLoja,
+    };
+
+    try {
+      DocumentReference lojaRef = _firestore
+          .collection('users')
+          .doc(user?.uid);
+
+    DocumentSnapshot lojaSnapshot = await lojaRef.get();
+    if (lojaSnapshot.exists) {
+      await lojaRef.update(Loja);
+      print('Loja $lojaSnapshot atualizado com sucesso');
+    } else {
+      print('Loja $lojaSnapshot não atualizado');
+    }
+      
+    } catch (e) {
+      print('Erro ao atualizar a Loja: $e');
+    }
+  }
+
+
 //Excluir itens do adm loja - Ok em funcionamento
  Future<void> excluir(String id) async {
     User? user = FirebaseAuth.instance.currentUser;
@@ -119,4 +153,28 @@ class Database {
     }
     return docs;
   }
+  
+  //método para buscar as informações da loja com base no ID do usuário
+  Future<Map<String, dynamic>?> getLojaInfo(String userId) async {
+    try {
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      return doc.data() as Map<String, dynamic>?; // Retorna as informações da loja
+    } catch (e) {
+      print('Erro ao buscar informações da loja: $e');
+      return null;
+    }
+  }
+
+  Future<void> getData() async {
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  QuerySnapshot querySnapshot = await users.get();
+
+  querySnapshot.docs.forEach((doc) {
+    print(doc.data());
+  });
+}
+
+
+
+
 }

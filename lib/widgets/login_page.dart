@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     // Verificar se o Firebase foi inicializado antes de construir a interface
     if (!_isFirebaseInitialized) {
-      return CircularProgressIndicator(); // ou outra tela de carregamento
+      return const CircularProgressIndicator(); // ou outra tela de carregamento
     }
 
     return GestureDetector(
@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Container(
-              color: Color.fromARGB(137, 255, 255, 255),
+              color: const Color.fromARGB(137, 255, 255, 255),
             ),
             Center(
               child: Padding(
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               decoration: InputDecoration(
                                 hintText: "Email",
-                                prefixIcon: Icon(Icons.email),
+                                prefixIcon: const Icon(Icons.email),
                                 errorBorder: UnderlineInputBorder(
                                   borderRadius:
                                       BorderRadius.circular(6.0),
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               decoration: InputDecoration(
                                 hintText: "Senha",
-                                prefixIcon: Icon(Icons.lock),
+                                prefixIcon: const Icon(Icons.lock),
                                 errorBorder: UnderlineInputBorder(
                                   borderRadius:
                                       BorderRadius.circular(6.0),
@@ -169,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                                               if (user != null) {
                                                 // Exibir ID do usuário ao fazer login
                                                 print("SEU ID É: ${user.uid}");
+                                                // ignore: use_build_context_synchronously
                                                 Navigator.of(context)
                                                     .pushReplacement(
                                                         MaterialPageRoute(
@@ -217,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                                       builder: (context) => SenhaPage()),
                                 );
                               },
-                              child: Text('Esqueceu sua senha?'),
+                              child: const Text('Esqueceu sua senha?'),
                             ),
                           ],
                         ),

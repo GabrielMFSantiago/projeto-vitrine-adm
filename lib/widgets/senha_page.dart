@@ -18,20 +18,21 @@ class SenhaPage extends StatelessWidget {
       );
 
       // Mostra um pop-up com a mensagem após o envio do email
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Color.fromARGB(255, 255, 255, 255),
-            title: Text('Email Enviado'),
-            content: Text('Um email foi enviado para alterar a sua Senha!'),
+            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            title: const Text('Email Enviado'),
+            content: const Text('Um email foi enviado para alterar a sua Senha!'),
             actions: [
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context); // Fecha o pop-up
                   Navigator.pop(context); // Fecha a página SenhaPage e retorna para a LoginPage
                 },
-                child: Text(
+                child: const Text(
                   'OK',
                   style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255)),
@@ -52,11 +53,11 @@ class SenhaPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading:
             true, 
-        title: Text('Redefina sua Senha...'), 
+        title: const Text('Redefina sua Senha...'), 
       ),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Padding(
-        padding: EdgeInsets.all(
+        padding: const EdgeInsets.all(
             16.0),
         child: Column(
           mainAxisAlignment:
@@ -64,7 +65,7 @@ class SenhaPage extends StatelessWidget {
           children: [
             TextField(
               controller: emailController, 
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Email",
                 prefixIcon: Icon(Icons.email),
                 enabledBorder: UnderlineInputBorder(
@@ -72,31 +73,31 @@ class SenhaPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () =>
                   _resetPassword(context),
-              child: Text(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 40), 
+              ),
+              child: const Text(
                 'Redefinir Senha',
                 style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 40), 
-              ),
             ),
-            SizedBox(height: 16), 
+            const SizedBox(height: 16), 
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          LoginPage()), 
+                          const LoginPage()), 
                 );
               },
-              child: Text('Lembrou a senha? Clique aqui!'),
+              child: const Text('Lembrou a senha? Clique aqui!'),
             ),
           ],
         ),

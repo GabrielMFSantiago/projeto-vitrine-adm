@@ -74,13 +74,13 @@ class _RegisterPageState extends State<RegisterPage> {
         _focusPassword.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Cadastrando sua loja...',
-            style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+            style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           ),
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -106,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
@@ -127,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
@@ -148,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
@@ -169,7 +169,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.red,
                             ),
                           ),
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
@@ -283,6 +283,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         });
 
                                         if (user != null) {
+                                          // ignore: use_build_context_synchronously
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(
                                             MaterialPageRoute(

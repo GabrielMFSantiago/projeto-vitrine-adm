@@ -12,12 +12,12 @@ class _SuportePageState extends State<SuportePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         leading: BackButton(onPressed: () {
           Navigator.pop(context);
         }),
-        title: Text('Escolha uma forma de contato:'),
+        title: const Text('Escolha uma forma de contato:'),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 24.0, right: 24.0),
@@ -32,7 +32,7 @@ class _SuportePageState extends State<SuportePage> {
             const SizedBox(
                 height:
                     20),
-            Center(
+            const Center(
               child: Text(
                 'Telefones: \n(22)99878-6284 \n(22)99282-3204 \n\nE-mails: \ndanilloneto98@gmail.com\ngabrielmoreirafonseca97@gmail.com ',
                 textDirection: TextDirection.ltr,

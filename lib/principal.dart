@@ -83,12 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _filtrandoTudo(String query) {
     setState(() {
       if (query.isNotEmpty) {
-        docs = docs.where((contact) {
-          String nomeItem = contact['nomeitem'].toLowerCase();
-          String cor = contact['cor'].toLowerCase();
-          String tamanho = contact['tamanho'].toLowerCase();
-          String descricao = contact['descricao'].toLowerCase();
-          String preco = contact['preco'].toLowerCase();
+        docs = docs.where((iteninfo) {
+          String nomeItem = iteninfo['nomeitem'].toLowerCase();
+          String cor = iteninfo['cor'].toLowerCase();
+          String tamanho = iteninfo['tamanho'].toLowerCase();
+          String descricao = iteninfo['descricao'].toLowerCase();
+          String preco = iteninfo['preco'].toLowerCase();
           return nomeItem.contains(query.toLowerCase()) ||
               cor.contains(query.toLowerCase()) ||
               tamanho.contains(query.toLowerCase()) ||
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Align(
                                 alignment: Alignment.center,
                                 child: Text(
