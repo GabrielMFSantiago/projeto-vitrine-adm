@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:vitrine/widgets/login_page.dart';
 
 // APP DE ADMINISTRADOR
-
+// app atualizado
 void main() {
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -61,5 +60,4 @@ class MyApp extends StatelessWidget {
       home: const LoginPage(),
     );
   }
-  
 }
