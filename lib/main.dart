@@ -4,11 +4,8 @@ import 'package:vitrine/widgets/login_page.dart';
 
 // APP DE ADMINISTRADOR
 
-
-//teste 2
 void main() {
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -63,5 +60,4 @@ class MyApp extends StatelessWidget {
       home: const LoginPage(),
     );
   }
-  
 }
