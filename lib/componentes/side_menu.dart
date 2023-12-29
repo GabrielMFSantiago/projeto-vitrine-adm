@@ -14,11 +14,13 @@ class SideMenu extends StatefulWidget {
   @override
   State<SideMenu> createState() => _SideMenuState();
 }
+
 class _SideMenuState extends State<SideMenu> {
   String? _imagePath;
   String? _lojaNome;
   late String _userId;
   Database? db;
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +43,7 @@ class _SideMenuState extends State<SideMenu> {
 
   Future<void> _loadLojaNome() async {
     if (_lojaNome == null) {
-      CollectionReference lojas = FirebaseFirestore.instance.collection('lojas');
+      CollectionReference lojas = FirebaseFirestore.instance.collection('users');
 
       try {
         // Obtém o documento da loja associada ao usuário autenticado
@@ -58,7 +60,7 @@ class _SideMenuState extends State<SideMenu> {
     }
   }
 
- Future<void> _loadImagePath() async {
+  Future<void> _loadImagePath() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? imagePath = prefs.getString('image_path_$_userId');
 
@@ -74,7 +76,7 @@ class _SideMenuState extends State<SideMenu> {
     prefs.setString('image_path_$_userId', imagePath);
   }
 
-   Future<void> _pickImage() async {
+  Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -125,8 +127,8 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-     User? user = FirebaseAuth.instance.currentUser;
-     String ? userid = user?.uid;
+    User? user = FirebaseAuth.instance.currentUser;
+    String? userid = user?.uid;
 
     return Scaffold(
       body: Container(
@@ -161,7 +163,7 @@ class _SideMenuState extends State<SideMenu> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        _lojaNome ?? "Nome da Loja",
+                        _lojaNome ?? '',
                         style: const TextStyle(
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 24,
@@ -181,8 +183,7 @@ class _SideMenuState extends State<SideMenu> {
                       .copyWith(color: Colors.white70),
                 ),
               ),
-               
-               SideMenuTitle(userid, db: db,)
+              SideMenuTitle(userid, db: db),
             ],
           ),
         ),

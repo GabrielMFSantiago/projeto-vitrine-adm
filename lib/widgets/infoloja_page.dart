@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 
 class InfoLojaPage extends StatefulWidget {
   final String? userId;
@@ -69,7 +70,9 @@ Future<void> _loadLojaData() async {
     if (_userId.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Informações da Loja'),
+          title: const Text('Informações da Loja',style: TextStyle(color: Colors.white),),
+           backgroundColor: Colors.black,
+           iconTheme: IconThemeData(color: Colors.white),
         ),
         body: const Center(
           child: Text('O ID do usuário está vazio.'),
@@ -79,32 +82,39 @@ Future<void> _loadLojaData() async {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Informações da Loja'),
+        title: const Text('Informações da Loja',style: TextStyle(color: Colors.white),),
+         backgroundColor: Colors.black,
+         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Nome da Loja: $_nomeLoja'),
-            const SizedBox(height: 8.0),
-            Text('CNPJ: $_cnpj'),
-            const SizedBox(height: 8.0),
-            Text('Endereço: $_endereco'),
-            const SizedBox(height: 8.0),
-            Text('Nome do Proprietário: $_nomeProprietario'),
-            const SizedBox(height: 8.0),
-            Text('Telefone: $_telefone'),
+            _buildInfo('Nome da Loja:', _nomeLoja),
+            _buildInfo('CNPJ:', _cnpj),
+            _buildInfo('Endereço:', _endereco),
+            _buildInfo('Nome do Proprietário:', _nomeProprietario),
+            _buildInfo('Telefone:', _telefone),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // Adicione a navegação para a tela de edição aqui
-              },
-              child: const Text('Editar Informações'),
-            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildInfo(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$label',
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4.0),
+        Text('$value', style: TextStyle(fontSize: 20.0)),
+        const SizedBox(height: 30.0),
+      ],
     );
   }
 }

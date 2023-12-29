@@ -17,7 +17,9 @@ class _SuportePageState extends State<SuportePage> {
         leading: BackButton(onPressed: () {
           Navigator.pop(context);
         }),
-        title: const Text('Escolha uma forma de contato:'),
+        title: const Text('Contatos Vitrine',style: TextStyle(color: Colors.white),),
+           backgroundColor: Colors.black,
+           iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 24.0, right: 24.0),

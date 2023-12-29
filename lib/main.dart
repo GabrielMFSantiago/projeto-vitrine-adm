@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vitrine/widgets/login_page.dart';
 
 // APP DE ADMINISTRADOR
-// test gabriel
+
 void main() {
   runApp(const MyApp());
 }

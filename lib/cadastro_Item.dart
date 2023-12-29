@@ -19,9 +19,9 @@ class Formulario extends StatefulWidget {
 
   Map? ItemSelecionado;
   Database? db;
-  
+
   User? user = FirebaseAuth.instance.currentUser;
-  String? userId; 
+  String? userId;
 
   @override
   _FormularioState createState() => _FormularioState();
@@ -105,7 +105,12 @@ class _FormularioState extends State<Formulario> {
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
-            title: const Text('Cadastre seu produto...'),
+            title: const Text(
+              'Cadastre seu produto...',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.black,
+            iconTheme: IconThemeData(color: Colors.white),
             leading: BackButton(onPressed: () {
               Navigator.pop(context);
             })),
@@ -216,6 +221,10 @@ class _FormularioState extends State<Formulario> {
                       Navigator.pop(context);
                     }
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    onPrimary: Colors.white,
+                  ),
                   child: const Text('Gravar'),
                 ),
                 if (widget.ItemSelecionado!['id'] != null)
@@ -227,6 +236,10 @@ class _FormularioState extends State<Formulario> {
                         Navigator.pop(context);
                       }
                     },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white, 
+                      onPrimary: Colors.red, 
+                    ),
                     child: const Text('Excluir'),
                   ),
               ],
