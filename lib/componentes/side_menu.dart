@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -61,13 +62,19 @@ class _SideMenuState extends State<SideMenu> {
   }
 
   Future<void> _loadImagePath() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? imagePath = prefs.getString('image_path_$_userId');
+    CollectionReference lojas = FirebaseFirestore.instance.collection('users');
 
-    if (imagePath != null) {
-      setState(() {
-        _imagePath = imagePath;
-      });
+    try {
+      // Obtém o documento da loja associada ao usuário autenticado
+      DocumentSnapshot lojaDoc = await lojas.doc(_userId).get();
+
+      if (lojaDoc.exists) {
+        setState(() {
+          _imagePath = lojaDoc['profileImage'];
+        });
+      }
+    } catch (e) {
+      print('Erro ao carregar o caminho da imagem: $e');
     }
   }
 
@@ -81,20 +88,22 @@ class _SideMenuState extends State<SideMenu> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      final Directory appDocumentsDirectory =
-          await getApplicationDocumentsDirectory();
-      final String destinationPath =
-          '${appDocumentsDirectory.path}/${DateTime.now().millisecondsSinceEpoch}.png';
+      final bytes = await pickedFile.readAsBytes();
 
-      final File destinationFile = File(destinationPath);
-      await destinationFile.writeAsBytes(await pickedFile.readAsBytes());
+      // Codificar em base64
+      final String base64Image = base64Encode(bytes);
 
-      setState(() {
-        _imagePath = destinationPath;
+      // Salvar no Firestore
+      await FirebaseFirestore.instance.collection('users').doc(_userId).update({
+        'profileImage': base64Image,
       });
 
       // Salvar o caminho da imagem nas SharedPreferences
-      await _saveImagePath(destinationPath);
+      await _saveImagePath(base64Image);
+
+      setState(() {
+        _imagePath = base64Image;
+      });
     }
   }
 
@@ -151,8 +160,8 @@ class _SideMenuState extends State<SideMenu> {
                           width: 200,
                           height: 200,
                           child: _imagePath != null
-                              ? Image.file(
-                                  File(_imagePath!),
+                              ? Image.memory(
+                                  base64Decode(_imagePath!),
                                   fit: BoxFit.cover,
                                 )
                               : Image.asset(

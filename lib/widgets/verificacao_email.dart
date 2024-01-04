@@ -22,7 +22,15 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     _currentUser = widget.user;
     super.initState();
+    _checkEmailVerification(); // Adiciona a verificação no início
   }
+
+ Future<void> _checkEmailVerification() async {
+  await _currentUser.reload();
+  _currentUser = FirebaseAuth.instance.currentUser!;
+  print('User email verified: ${_currentUser.emailVerified}');
+  setState(() {});
+}
 
   @override
   Widget build(BuildContext context) {
@@ -76,22 +84,25 @@ class _ProfilePageState extends State<ProfilePage> {
                           setState(() {
                             _isSendingVerification = false;
                           });
-                            showDialog(
+                          showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                                backgroundColor:
+                                    Color.fromARGB(255, 255, 255, 255),
                                 title: Text('Email Enviado'),
-                                content: Text('Um email de verificação foi enviado!'),
+                                content: Text(
+                                    'Um email de verificação foi enviado!'),
                                 actions: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      Navigator.pop(context); // Fecha o pop-up                                  
+                                      Navigator.pop(context); // Fecha o pop-up
                                     },
                                     child: Text(
                                       'OK',
                                       style: TextStyle(
-                                          color: Color.fromARGB(255, 255, 255, 255)),
+                                          color:
+                                              Color.fromARGB(255, 255, 255, 255)),
                                     ),
                                   ),
                                 ],
@@ -111,13 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       IconButton(
                         icon: const Icon(Icons.refresh),
                         onPressed: () async {
-                          User? user = await FireAuth.refreshUser(_currentUser);
-
-                          if (user != null) {
-                            setState(() {
-                              _currentUser = user;
-                            });
-                          }
+                          await _checkEmailVerification();
                         },
                       ),
                     ],

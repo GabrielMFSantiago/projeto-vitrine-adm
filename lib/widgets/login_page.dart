@@ -195,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 builder: (context) =>
                                                     RegisterPage(
                                                   userId: FirebaseAuth
-                                                      .instance.currentUser!.uid,
+                                                      .instance.currentUser?.uid ?? '',
                                                 ),
                                               ),
                                             );
