@@ -25,20 +25,29 @@ class _ProfilePageState extends State<ProfilePage> {
     _checkEmailVerification(); // Adiciona a verificação no início
   }
 
- Future<void> _checkEmailVerification() async {
-  await _currentUser.reload();
-  _currentUser = FirebaseAuth.instance.currentUser!;
-  print('User email verified: ${_currentUser.emailVerified}');
-  setState(() {});
-}
+  Future<void> _checkEmailVerification() async {
+    await _currentUser.reload();
+    _currentUser = FirebaseAuth.instance.currentUser!;
+    print('User email verified: ${_currentUser.emailVerified}');
+    if (_currentUser.emailVerified) {
+      // Se o email estiver verificado, navegue para a tela de login
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        title: const Text('Verificação de login'),
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        automaticallyImplyLeading: false, // Remova a seta de voltar
+        title: const Text('Verificação de login', style: TextStyle(color: Colors.white),),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       ),
       body: Center(
         child: Column(
@@ -126,37 +135,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                       ),
                     ],
-                  ),
-            const SizedBox(height: 16.0),
-            _isSigningOut
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        _isSigningOut = true;
-                      });
-                      await FirebaseAuth.instance.signOut();
-                      setState(() {
-                        _isSigningOut = false;
-                      });
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'Sair',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
                   ),
           ],
         ),

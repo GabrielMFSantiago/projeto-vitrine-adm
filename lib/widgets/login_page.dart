@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  
   final _formKey = GlobalKey<FormState>();
 
   final _emailTextController = TextEditingController();
@@ -27,14 +26,13 @@ class _LoginPageState extends State<LoginPage> {
   bool _isProcessing = false;
   bool _isFirebaseInitialized = false;
 
-   @override
+  @override
   void initState() {
     super.initState();
-    
+
     _initializeFirebase();
   }
 
-  // Função para inicializar o Firebase
   Future<void> _initializeFirebase() async {
     if (!_isFirebaseInitialized) {
       await Firebase.initializeApp();
@@ -44,12 +42,66 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+/*
+ Future<void> _checkEmailVerificationn() async {
+    await _currentUser.reload();
+    _currentUser = FirebaseAuth.instance.currentUser!;
+    print('User email verified: ${_currentUser.emailVerified}');
+    if (_currentUser.emailVerified) {
+      // Se o email estiver verificado, navegue para a tela de login
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    }
+    setState(() {});
+  }
+*/
+
+  Future<void> _checkEmailVerification() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    await user?.reload();
+    user = FirebaseAuth.instance.currentUser;
+
+    if (user?.emailVerified == true) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const MyApp(),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            title: const Text('Verificação de E-mail Necessária'),
+            content: const Text(
+                'Você precisa verificar seu e-mail antes de prosseguir.'),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Verificar',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Verificar se o Firebase foi inicializado antes de construir a interface
     if (!_isFirebaseInitialized) {
-      return const CircularProgressIndicator(); // ou outra tela de carregamento
+      return const CircularProgressIndicator();
     }
 
     return GestureDetector(
@@ -88,23 +140,20 @@ class _LoginPageState extends State<LoginPage> {
                             TextFormField(
                               controller: _emailTextController,
                               focusNode: _focusEmail,
-                              validator: (value) =>
-                                  Validator.validateEmail(
+                              validator: (value) => Validator.validateEmail(
                                 email: value,
                               ),
                               decoration: InputDecoration(
                                 hintText: "Email",
                                 prefixIcon: const Icon(Icons.email),
                                 errorBorder: UnderlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(6.0),
+                                  borderRadius: BorderRadius.circular(6.0),
                                   borderSide: const BorderSide(
                                     color: Colors.red,
                                   ),
                                 ),
                                 enabledBorder: const UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.black),
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
                               ),
                             ),
@@ -113,23 +162,20 @@ class _LoginPageState extends State<LoginPage> {
                               controller: _passwordTextController,
                               focusNode: _focusPassword,
                               obscureText: true,
-                              validator: (value) =>
-                                  Validator.validatePassword(
+                              validator: (value) => Validator.validatePassword(
                                 password: value,
                               ),
                               decoration: InputDecoration(
                                 hintText: "Senha",
                                 prefixIcon: const Icon(Icons.lock),
                                 errorBorder: UnderlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(6.0),
+                                  borderRadius: BorderRadius.circular(6.0),
                                   borderSide: const BorderSide(
                                     color: Colors.red,
                                   ),
                                 ),
                                 enabledBorder: const UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.black),
+                                  borderSide: BorderSide(color: Colors.black),
                                 ),
                               ),
                             ),
@@ -155,8 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                                               User? user = await FireAuth
                                                   .signInUsingEmailPassword(
                                                 email:
-                                                    _emailTextController
-                                                        .text,
+                                                    _emailTextController.text,
                                                 password:
                                                     _passwordTextController
                                                         .text,
@@ -167,22 +212,15 @@ class _LoginPageState extends State<LoginPage> {
                                               });
 
                                               if (user != null) {
-                                                // Exibir ID do usuário ao fazer login
-                                                print("SEU ID É: ${user.uid}");
-                                                // ignore: use_build_context_synchronously
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              const MyApp(),
-                                                        ));
+                                                _checkEmailVerification();
                                               }
                                             }
                                           },
                                           child: const Text(
                                             'Entrar',
                                             style: TextStyle(
-                                                color: Colors.white),
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -194,8 +232,9 @@ class _LoginPageState extends State<LoginPage> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     RegisterPage(
-                                                  userId: FirebaseAuth
-                                                      .instance.currentUser?.uid ?? '',
+                                                  userId: FirebaseAuth.instance
+                                                          .currentUser?.uid ??
+                                                      '',
                                                 ),
                                               ),
                                             );
@@ -203,7 +242,8 @@ class _LoginPageState extends State<LoginPage> {
                                           child: const Text(
                                             'Registrar',
                                             style: TextStyle(
-                                                color: Colors.white),
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
