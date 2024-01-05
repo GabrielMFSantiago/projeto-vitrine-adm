@@ -35,7 +35,7 @@ class Database {
    
   }
 
-//Editar itens do adm loja - Ok em fucionamento
+//Editar itens do adm loja
   Future<void> editar(String id, Item c) async {
     User? user = FirebaseAuth.instance.currentUser;
 
@@ -102,7 +102,7 @@ Future<void> editarLoja(String id, Loja j) async {
   }
 
 
-//Excluir itens do adm loja - Ok em funcionamento
+//Excluir itens do adm loja
  Future<void> excluir(String id) async {
     User? user = FirebaseAuth.instance.currentUser;
     try {
@@ -120,7 +120,7 @@ Future<void> editarLoja(String id, Loja j) async {
     }
   }
 
-//Listar itens do adm loja - ok em funcionamento
+//Listar itens do adm loja
   Future<List> listar() async {
     User? user = FirebaseAuth.instance.currentUser;
 

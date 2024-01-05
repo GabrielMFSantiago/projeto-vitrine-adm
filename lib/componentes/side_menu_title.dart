@@ -13,8 +13,6 @@ class SideMenuTitle extends StatelessWidget {
     this.db
   }) : super(key: key);
   
-  //List docs = [];
-  //List<bool> selectedLoja = List.generate(0, (_) => false);
   Database? db;
   
   @override
@@ -113,12 +111,6 @@ class SideMenuTitle extends StatelessWidget {
         ListTile(
           onTap: () async {
             User? user = FirebaseAuth.instance.currentUser;
-            //userId = user?.uid;
-            // Adicione esta linha para obter as informações da loja
-            
-            //Map<String, dynamic>? lojaInfo = await db?.getLojaInfo(userId!);
-            
-            // ignore: use_build_context_synchronously
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => InfoLojaPage(userId: user?.uid,),
@@ -185,7 +177,7 @@ class SideMenuTitle extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop(); // Fechar o diálogo
+                        Navigator.of(context).pop(); 
                       },
                       child: const Text("Cancelar"),
                     ),

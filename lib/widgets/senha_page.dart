@@ -3,22 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'register_page.dart';
 import 'login_page.dart';
 
-// Classe da página de redefinição de senha
+
 class SenhaPage extends StatelessWidget {
   final TextEditingController emailController =
       TextEditingController(); 
 
   SenhaPage(); 
 
-  // Função para redefinir a senha
+
   void _resetPassword(BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
         email: emailController.text, // Envia um email para redefinir a senha
       );
 
-      // Mostra um pop-up com a mensagem após o envio do email
-      // ignore: use_build_context_synchronously
+      
+     // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {

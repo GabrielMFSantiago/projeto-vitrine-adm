@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FireAuth {
-  // For registering a new user
   static Future<User?> registerUsingEmailPassword({
     required String name,
     required String email,
@@ -17,7 +16,6 @@ class FireAuth {
       );
 
       user = userCredential.user;
-      // ignore: deprecated_member_use
       await user!.updateProfile(displayName: name);
       await user.reload();
       user = auth.currentUser;
@@ -34,29 +32,23 @@ class FireAuth {
     return user;
   }
 
-  // For signing in an user (have already registered)
   static Future<User?> signInUsingEmailPassword({
     required String email,
     required String password,
   }) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
 
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      user = userCredential.user;
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      return userCredential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('Nenhum usuário encontrado para esse e-mail.');
-      } else if (e.code == 'wrong-password') {
-        print('Senha incorreta fornecida.');
-      }
+      //capturar erros de autenticação
+      print("Erro de autenticação: ${e.message}");
+      return null;
     }
 
-    return user;
+   
   }
 
   static Future<User?> refreshUser(User user) async {

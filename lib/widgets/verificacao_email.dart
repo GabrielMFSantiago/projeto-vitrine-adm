@@ -93,6 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           setState(() {
                             _isSendingVerification = false;
                           });
+                           // ignore: use_build_context_synchronously
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

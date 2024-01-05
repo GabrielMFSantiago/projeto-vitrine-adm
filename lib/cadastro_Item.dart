@@ -46,7 +46,7 @@ class _FormularioState extends State<Formulario> {
   void initState() {
     super.initState();
 
-    // ignore: unnecessary_null_comparison
+   
     if (widget.ItemSelecionado!['id'].toString() != null &&
         widget.userId.toString() != null) {
       id = widget.ItemSelecionado!['id'].toString();
@@ -100,7 +100,7 @@ class _FormularioState extends State<Formulario> {
 
   @override
   Widget build(BuildContext context) {
-    //User? user = FirebaseAuth.instance.currentUser;
+   
 
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),

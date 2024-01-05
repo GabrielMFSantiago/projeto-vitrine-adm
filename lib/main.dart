@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vitrine/widgets/login_page.dart';
 
-// APP DE ADMINISTRADOR
+// APP DE ADMINISTRADOR - Vitrine ADM
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MaterialColor blackSwatch = const MaterialColor(
-      0xFF000000, // Valor hexadecimal da cor preta
+      0xFF000000, 
       <int, Color>{
         50: Color(0xFF000000),
         100: Color(0xFF000000),
@@ -48,12 +48,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
         textTheme: const TextTheme(
-          // ignore: deprecated_member_use
+          
           headline1: TextStyle(
             fontSize: 46.0,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
-          // ignore: deprecated_member_use
+          
           bodyText1: TextStyle(fontSize: 20),
         ),
       ),

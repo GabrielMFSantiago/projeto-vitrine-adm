@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           widget.title,
           style: const TextStyle(
-            color: Colors.white, // Cor do título da barra de aplicativos
+            color: Colors.white, 
           ),
         ),
       ),

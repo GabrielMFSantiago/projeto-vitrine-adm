@@ -14,7 +14,6 @@ class StoragePage extends StatefulWidget {
 
 class _StoragePageState extends State<StoragePage> {
   final FirebaseStorage storage = FirebaseStorage.instance;
-  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   List<Reference> refs = [];
   List<String> arquivos = [];
   bool loading = true;
@@ -60,18 +59,8 @@ class _StoragePageState extends State<StoragePage> {
           });
         } else if (snapshot.state == TaskState.success) {
           final photoRef = snapshot.ref;
-
-          // final newMetadata = SettableMetadata(
-          //   cacheControl: "public, max-age=300",
-          //   contentType: "image/jpeg",
-          // );
-          // await photoRef.updateMetadata(newMetadata);
-
           arquivos.add(await photoRef.getDownloadURL());
           refs.add(photoRef);
-          // final SharedPreferences prefs = await _prefs;
-          // prefs.setStringList('images', arquivos);
-
           setState(() => uploading = false);
         }
       });
@@ -85,17 +74,11 @@ class _StoragePageState extends State<StoragePage> {
   }
 
   loadImages() async {
-    // final SharedPreferences prefs = await _prefs;
-    // arquivos = prefs.getStringList('images') ?? [];
-
-    // if (arquivos.isEmpty) {
     refs = (await storage.ref('images').listAll()).items;
     for (var ref in refs) {
       final arquivo = await ref.getDownloadURL();
       arquivos.add(arquivo);
     }
-    // prefs.setStringList('images', arquivos);
-    // }
     setState(() => loading = false);
   }
 

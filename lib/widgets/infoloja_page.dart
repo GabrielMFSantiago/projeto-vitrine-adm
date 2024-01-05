@@ -55,7 +55,7 @@ Future<void> _loadLojaData() async {
   } catch (e) {
     print('Erro ao carregar dados da loja: $e');
     setState(() {
-      _nomeLoja = ''; // ou outro valor padrão
+      _nomeLoja = ''; 
       _cnpj = '';
       _endereco = '';
       _nomeProprietario = '';

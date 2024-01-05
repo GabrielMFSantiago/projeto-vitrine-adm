@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vitrine/Loja.dart';
 import 'package:vitrine/database.dart';
 
-// ignore: must_be_immutable
 class InfoLojaPage extends StatefulWidget {
   
   final User? userId = FirebaseAuth.instance.currentUser;
@@ -53,7 +52,6 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
       });
     }
 
-    // ignore: unnecessary_null_comparison
     if (widget.lojaSelecionada != null) {
       id = widget.lojaSelecionada!['id'].toString();
       nomeLojaCtrl.text = widget.lojaSelecionada!['nome'] != null
@@ -71,7 +69,6 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
       telefoneCtrl.text = widget.lojaSelecionada!['telefone'] != null
           ? widget.lojaSelecionada!['telefone'].toString()
           : '';
-      //imageUrl = widget.lojaSelecionada!['img'].toString();
       user = widget.userId as User?;
     }
   }
@@ -109,59 +106,6 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
                 TextField(
                     controller: telefoneCtrl,
                     decoration: const InputDecoration(labelText: "Telefone")),
-                /* Container(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //ADICIONAR IMAGEM COM CAMERA
-                          IconButton(
-                            onPressed: () {
-                              _uploadImage(ImageSource.camera);
-                            },
-                            icon: const Icon(Icons.camera_alt),
-                          ),
-
-                          //ADICIONAR IMAGEM COM GALERIA
-
-                          IconButton(
-                            onPressed: () {
-                              _uploadImage(ImageSource.gallery);
-                            },
-                            icon: const Icon(Icons.image),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16.0),
-                      Container(
-                        width: 600.0,
-                        height: 500.0,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            if (imageUrl.isNotEmpty)
-                              Image.network(
-                                imageUrl,
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return const Center(
-                                      child: Text('Erro ao carregar a imagem'));
-                                },
-                              ),
-                            if (isImageUploading)
-                              const CircularProgressIndicator(),
-                            if (imageUrl.isEmpty && !isImageUploading)
-                              const Center(
-                                  child: Text('Adicione sua imagem aqui!')),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ), */
                 ElevatedButton(
                   onPressed: () async {
                     if (nomeLojaCtrl.text.trim() != "") {

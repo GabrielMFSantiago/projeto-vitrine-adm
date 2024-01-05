@@ -65,7 +65,6 @@ class _SideMenuState extends State<SideMenu> {
     CollectionReference lojas = FirebaseFirestore.instance.collection('users');
 
     try {
-      // Obtém o documento da loja associada ao usuário autenticado
       DocumentSnapshot lojaDoc = await lojas.doc(_userId).get();
 
       if (lojaDoc.exists) {

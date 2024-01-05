@@ -42,35 +42,16 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-/*
- Future<void> _checkEmailVerificationn() async {
-    await _currentUser.reload();
-    _currentUser = FirebaseAuth.instance.currentUser!;
-    print('User email verified: ${_currentUser.emailVerified}');
-    if (_currentUser.emailVerified) {
-      // Se o email estiver verificado, navegue para a tela de login
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ),
-      );
-    }
-    setState(() {});
-  }
-*/
-
   Future<void> _checkEmailVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     await user?.reload();
     user = FirebaseAuth.instance.currentUser;
 
     if (user?.emailVerified == true) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const MyApp(),
-        ),
-      );
+      // Se o e-mail estiver verificado, permita o login
+      _navigateToHome();
     } else {
+       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -81,8 +62,36 @@ class _LoginPageState extends State<LoginPage> {
                 'Você precisa verificar seu e-mail antes de prosseguir.'),
             actions: [
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  // Enviar e-mail de verificação
+                  await user?.sendEmailVerification();
+
                   Navigator.pop(context);
+                   // ignore: use_build_context_synchronously
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                        title: const Text('E-mail de Verificação Enviado'),
+                        content: const Text(
+                            'Um e-mail de verificação foi enviado!'),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context); 
+                            },
+                            child: const Text(
+                              'OK',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 child: const Text(
                   'Verificar',
@@ -96,6 +105,14 @@ class _LoginPageState extends State<LoginPage> {
         },
       );
     }
+  }
+
+  Future<void> _navigateToHome() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const MyApp(),
+      ),
+    );
   }
 
   @override
@@ -213,6 +230,31 @@ class _LoginPageState extends State<LoginPage> {
 
                                               if (user != null) {
                                                 _checkEmailVerification();
+                                              } else {
+                                                 // ignore: use_build_context_synchronously
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AlertDialog(
+                                                      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                                                      title: const Text('Erro de Autenticação'),
+                                                      content: const Text('E-mail ou senha incorretos.'),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: const Text(
+                                                            'OK',
+                                                            style: TextStyle(
+                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
                                               }
                                             }
                                           },
