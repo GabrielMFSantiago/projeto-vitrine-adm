@@ -14,6 +14,11 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+chamarTela(BuildContext context, StatelessWidget widget) {
+  Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
+}
+
+
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 

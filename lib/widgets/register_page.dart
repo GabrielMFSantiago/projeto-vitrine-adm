@@ -46,10 +46,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> _createLojaDocument(
       String userId, String nomeLoja, String cnpj, String endereco, String nomeProprietario, String telefone) async {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference usersadm = FirebaseFirestore.instance.collection('usersadm');
 
     try {
-      await users.doc(userId).set({
+      await usersadm.doc(userId).set({
         'nome': nomeLoja,
         'cnpj': cnpj,
         'endereco': endereco,

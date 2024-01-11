@@ -44,7 +44,7 @@ class _SideMenuState extends State<SideMenu> {
 
   Future<void> _loadLojaNome() async {
     if (_lojaNome == null) {
-      CollectionReference lojas = FirebaseFirestore.instance.collection('users');
+      CollectionReference lojas = FirebaseFirestore.instance.collection('usersadm');
 
       try {
         // Obtém o documento da loja associada ao usuário autenticado
@@ -62,7 +62,7 @@ class _SideMenuState extends State<SideMenu> {
   }
 
   Future<void> _loadImagePath() async {
-    CollectionReference lojas = FirebaseFirestore.instance.collection('users');
+    CollectionReference lojas = FirebaseFirestore.instance.collection('usersadm');
 
     try {
       DocumentSnapshot lojaDoc = await lojas.doc(_userId).get();
@@ -93,7 +93,7 @@ class _SideMenuState extends State<SideMenu> {
       final String base64Image = base64Encode(bytes);
 
       // Salvar no Firestore
-      await FirebaseFirestore.instance.collection('users').doc(_userId).update({
+      await FirebaseFirestore.instance.collection('usersadm').doc(_userId).update({
         'profileImage': base64Image,
       });
 

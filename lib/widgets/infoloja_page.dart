@@ -38,7 +38,7 @@ Future<void> _loadLojaData() async {
   try {
     if (_userId.isNotEmpty) {
       DocumentSnapshot lojaDoc = await FirebaseFirestore.instance
-          .collection('users')
+          .collection('usersadm')
           .doc(_userId)
           .get();
 

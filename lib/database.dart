@@ -25,7 +25,7 @@ class Database {
       "user": c.userItem,
     };
     _firestore
-        .collection('users')
+        .collection('usersadm')
         .doc(user?.uid)
         .collection('Items')
         .add(Item)
@@ -52,7 +52,7 @@ class Database {
 
     try {
       DocumentReference productRef = _firestore
-          .collection('users')
+          .collection('usersadm')
           .doc(user?.uid)
           .collection('Items')
           .doc(id);
@@ -85,7 +85,7 @@ Future<void> editarLoja(String id, Loja j) async {
 
     try {
       DocumentReference lojaRef = _firestore
-          .collection('users')
+          .collection('usersadm')
           .doc(user?.uid);
 
     DocumentSnapshot lojaSnapshot = await lojaRef.get();
@@ -107,7 +107,7 @@ Future<void> editarLoja(String id, Loja j) async {
     User? user = FirebaseAuth.instance.currentUser;
     try {
       DocumentReference productRef = _firestore
-          .collection('users')
+          .collection('usersadm')
           .doc(user?.uid)
           .collection('Items')
           .doc(id);
@@ -128,7 +128,7 @@ Future<void> editarLoja(String id, Loja j) async {
     List docs = [];
     try {
       querySnapshot = await _firestore
-          .collection('users')
+          .collection('usersadm')
           .doc(user?.uid)
           .collection('Items')
           .orderBy("nomeitem")
@@ -157,7 +157,7 @@ Future<void> editarLoja(String id, Loja j) async {
   //método para buscar as informações da loja com base no ID do usuário
   Future<Map<String, dynamic>?> getLojaInfo(String userId) async {
     try {
-      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('usersadm').doc(userId).get();
       return doc.data() as Map<String, dynamic>?; // Retorna as informações da loja
     } catch (e) {
       print('Erro ao buscar informações da loja: $e');
@@ -166,8 +166,8 @@ Future<void> editarLoja(String id, Loja j) async {
   }
 
   Future<void> getData() async {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  QuerySnapshot querySnapshot = await users.get();
+  CollectionReference usersadm = FirebaseFirestore.instance.collection('usersadm');
+  QuerySnapshot querySnapshot = await usersadm.get();
 
   querySnapshot.docs.forEach((doc) {
     print(doc.data());
