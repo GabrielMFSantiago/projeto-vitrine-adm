@@ -222,8 +222,7 @@ class _FormularioState extends State<Formulario> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white, backgroundColor: Colors.black,
                   ),
                   child: const Text('Gravar'),
                 ),
@@ -237,8 +236,7 @@ class _FormularioState extends State<Formulario> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.white, 
-                      onPrimary: Colors.red, 
+                      foregroundColor: Colors.red, backgroundColor: Colors.white, 
                     ),
                     child: const Text('Excluir'),
                   ),
