@@ -6,19 +6,17 @@ import 'package:vitrine/Loja.dart';
 import 'package:vitrine/database.dart';
 
 class InfoLojaPage extends StatefulWidget {
-  
   final User? userId = FirebaseAuth.instance.currentUser;
   final Map? lojaSelecionada;
-  
-  InfoLojaPage(
-      {Key? key, 
-       this.lojaSelecionada,
-       this.db,
-      }): super(key: key);
-      
-  
+
+  InfoLojaPage({
+    Key? key,
+    this.lojaSelecionada,
+    this.db,
+  }) : super(key: key);
+
   Database? db;
-  
+
   @override
   _InfoLojaPageState createState() => _InfoLojaPageState();
 }
@@ -29,7 +27,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
   TextEditingController enderecoCtrl = TextEditingController(text: '');
   TextEditingController nomePropietarioCtrl = TextEditingController(text: '');
   TextEditingController telefoneCtrl = TextEditingController(text: '');
-  
+
   User? user = FirebaseAuth.instance.currentUser;
   String? id;
   String? get userId => user?.uid;
@@ -63,9 +61,10 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
       enderecoCtrl.text = widget.lojaSelecionada!['endereco'] != null
           ? widget.lojaSelecionada!['endereco'].toString()
           : '';
-      nomePropietarioCtrl.text = widget.lojaSelecionada!['nomeProprietario'] != null
-          ? widget.lojaSelecionada!['nomeProprietario'].toString()
-          : '';
+      nomePropietarioCtrl.text =
+          widget.lojaSelecionada!['nomeProprietario'] != null
+              ? widget.lojaSelecionada!['nomeProprietario'].toString()
+              : '';
       telefoneCtrl.text = widget.lojaSelecionada!['telefone'] != null
           ? widget.lojaSelecionada!['telefone'].toString()
           : '';
@@ -73,7 +72,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
     }
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -94,15 +93,14 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
                 ),
                 TextField(
                     controller: cnpjCtrl,
-                    decoration:
-                        const InputDecoration(labelText: "CNPJ")),
+                    decoration: const InputDecoration(labelText: "CNPJ")),
                 TextField(
                     controller: enderecoCtrl,
-                    decoration: const InputDecoration(
-                        labelText: "Endereco")),
+                    decoration: const InputDecoration(labelText: "Endereco")),
                 TextField(
                     controller: nomePropietarioCtrl,
-                    decoration: const InputDecoration(labelText: "Nome Proprietário")),
+                    decoration:
+                        const InputDecoration(labelText: "Nome Proprietário")),
                 TextField(
                     controller: telefoneCtrl,
                     decoration: const InputDecoration(labelText: "Telefone")),
@@ -111,7 +109,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
                     if (nomeLojaCtrl.text.trim() != "") {
                       Database db = Database();
                       if (widget.lojaSelecionada!['id'] == null) {
-                       db.editarLoja(
+                        db.editarLoja(
                           id!,
                           Loja(
                             nomeLojaCtrl.text,

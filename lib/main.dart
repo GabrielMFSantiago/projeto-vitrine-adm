@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MaterialColor blackSwatch = const MaterialColor(
-      0xFF000000, 
+      0xFF000000,
       <int, Color>{
         50: Color(0xFF000000),
         100: Color(0xFF000000),
@@ -48,12 +48,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
         textTheme: const TextTheme(
-          
           headline1: TextStyle(
             fontSize: 46.0,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
-          
           bodyText1: TextStyle(fontSize: 20),
         ),
       ),

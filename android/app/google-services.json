@@ -8,7 +8,43 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:952286946774:android:bd43f8436a96bbddce7077",
+        "mobilesdk_app_id": "1:952286946774:android:eec2a29941c96ea5ce7077",
+        "android_client_info": {
+          "package_name": "com.example.lembretes_diarios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952286946774-gi0cdj9v2mv8iu3qn57cd9ba5e1vre3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBscEMRTuWRoGxiqg9n-o0S9Xz_ZpSW55A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952286946774-gi0cdj9v2mv8iu3qn57cd9ba5e1vre3n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "952286946774-7aa7hspbd2n9ec9r3b8p25dt1l5ti3g2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lembretesDiarios.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952286946774:android:bcfb83c7902b5f1bce7077",
         "android_client_info": {
           "package_name": "com.adm.vitrine"
         }
@@ -23,45 +59,24 @@
         {
           "current_key": "AIzaSyBscEMRTuWRoGxiqg9n-o0S9Xz_ZpSW55A"
         }
-      ]
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:952286946774:android:d3de43625c777877ce7077",
-        "android_client_info": {
-          "package_name": "com.cliente.vitrine"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "952286946774-gi0cdj9v2mv8iu3qn57cd9ba5e1vre3n.apps.googleusercontent.com",
-          "client_type": 3
-        }
       ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBscEMRTuWRoGxiqg9n-o0S9Xz_ZpSW55A"
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952286946774-gi0cdj9v2mv8iu3qn57cd9ba5e1vre3n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "952286946774-7aa7hspbd2n9ec9r3b8p25dt1l5ti3g2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lembretesDiarios.RunnerTests"
+              }
+            }
+          ]
         }
-      ]
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:952286946774:android:bcfb83c7902b5f1bce7077",
-        "android_client_info": {
-          "package_name": "com.example.vitrine"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "952286946774-gi0cdj9v2mv8iu3qn57cd9ba5e1vre3n.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBscEMRTuWRoGxiqg9n-o0S9Xz_ZpSW55A"
-        }
-      ]
+      }
     }
   ],
   "configuration_version": "1"
