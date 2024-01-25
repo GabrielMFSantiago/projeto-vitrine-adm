@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vitrine/widgets/login_page.dart';
 
 // APP DE ADMINISTRADOR - Vitrine ADM
 
-void main() {
+void main() async {
+  // Adicione esta linha
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     MaterialColor blackSwatch = const MaterialColor(

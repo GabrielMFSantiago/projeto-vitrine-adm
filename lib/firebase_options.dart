@@ -50,22 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBv8YSNbasXrLMy8y7SqW0CeVByyHxMszE',
-    appId: '1:952286946774:web:d8eea4d8d5741c78ce7077',
-    messagingSenderId: '952286946774',
-    projectId: 'adm-vitrine-db',
-    authDomain: 'adm-vitrine-db.firebaseapp.com',
-    databaseURL: 'https://adm-vitrine-db-default-rtdb.firebaseio.com',
-    storageBucket: 'adm-vitrine-db.appspot.com',
-    measurementId: 'G-71W4H62ZXX',
+    apiKey: 'AIzaSyCBx7bN930O6Pnrb60QjoVDFcnXT8spP7Y',
+    appId: '1:846106556704:web:6f8a823b352a57bb6eff45',
+    messagingSenderId: '846106556704',
+    projectId: 'vitrine-db-e4b2d',
+    authDomain: 'vitrine-db-e4b2d.firebaseapp.com',
+    storageBucket: 'vitrine-db-e4b2d.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBscEMRTuWRoGxiqg9n-o0S9Xz_ZpSW55A',
-    appId: '1:952286946774:android:bcfb83c7902b5f1bce7077',
-    messagingSenderId: '952286946774',
-    projectId: 'adm-vitrine-db',
-    databaseURL: 'https://adm-vitrine-db-default-rtdb.firebaseio.com',
-    storageBucket: 'adm-vitrine-db.appspot.com',
+    apiKey: 'AIzaSyAVUyxtHr7abPX7l-LW2CoTIk4ypA32kc4',
+    appId: '1:846106556704:android:7e831e8e986ad3986eff45',
+    messagingSenderId: '846106556704',
+    projectId: 'vitrine-db-e4b2d',
+    storageBucket: 'vitrine-db-e4b2d.appspot.com',
   );
 }

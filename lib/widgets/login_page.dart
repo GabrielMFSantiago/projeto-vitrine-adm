@@ -39,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _initializeFirebase() async {
+    WidgetsFlutterBinding.ensureInitialized();
+     
     if (!_isFirebaseInitialized) {
       await Firebase.initializeApp();
       setState(() {
