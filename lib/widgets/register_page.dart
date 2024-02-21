@@ -46,6 +46,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> _createLojaDocument(
       String userId, String nomeLoja, String cnpj, String endereco, String nomeProprietario, String telefone) async {
+
+
+     String telefoneCompleto = "+55$telefone";
+
     CollectionReference usersadm = FirebaseFirestore.instance.collection('usersadm');
 
     try {
@@ -54,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'cnpj': cnpj,
         'endereco': endereco,
         'nomeProprietario': nomeProprietario,
-        'telefone': telefone,
+        'telefone': telefoneCompleto,
       });
     } catch (e) {
       print('Erro ao criar documento da loja: $e');
