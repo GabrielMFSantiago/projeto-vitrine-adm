@@ -52,6 +52,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     CollectionReference usersadm = FirebaseFirestore.instance.collection('usersadm');
 
+    CollectionReference Items = FirebaseFirestore.instance.collection('Items');
+
     try {
       await usersadm.doc(userId).set({
         'nome': nomeLoja,

@@ -1,74 +1,78 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:vitrine/Loja.dart';
-import 'item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'item.dart';
+import 'Loja.dart';
 
 class Database {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  initiliase() {
+ initiliaze() {
     _firestore = FirebaseFirestore.instance;
   }
+
 
   Future<void> incluir(Item c) async {
     User? user = FirebaseAuth.instance.currentUser;
 
-    final Item = <String, dynamic>{
+    final itemData = <String, dynamic>{
       "nomeitem": c.nomeitem,
       "cor": c.cor,
       "tamanho": c.tamanho,
       "descricao": c.descricao,
       "preco": c.preco,
       "img": c.img,
-      "user": c.userItem,
-    };
-    _firestore
-        .collection('usersadm')
-        .doc(user?.uid)
-        .collection('Items')
-        .add(Item)
-        .then((DocumentReference doc) =>
-            print('DocumentSnapshot added with ID: ${doc.id}'));
-
-   
-  }
-
-//Editar itens do adm loja
-  Future<void> editar(String id, Item c) async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    print("id -----> $id");
-    final Item = <String, dynamic>{
-      "nomeitem": c.nomeitem,
-      "cor": c.cor,
-      "tamanho": c.tamanho,
-      "descricao": c.descricao,
-      "preco": c.preco,
-      "img": c.img,
-      "user": c.userItem,
+      "userId": user?.uid,
     };
 
     try {
-      DocumentReference productRef = _firestore
-          .collection('usersadm')
-          .doc(user?.uid)
-          .collection('Items')
-          .doc(id);
-    
-    DocumentSnapshot productSnapshot = await productRef.get();
-    if (productSnapshot.exists) {
-      await productRef.update(Item);
-      print('Item $productSnapshot atualizado com sucesso');
-    } else {
-      print('Item $productSnapshot não atualizado');
-    }
-      
+      await _firestore.collection('Items').add(itemData);
+      print('Documento adicionado com sucesso');
     } catch (e) {
-      print('Erro ao atualizar o Item: $e');
+      print('Erro ao adicionar documento: $e');
     }
   }
+
+  Future<void> editar(String id, Item c) async {
+    final itemData = <String, dynamic>{
+      "nomeitem": c.nomeitem,
+      "cor": c.cor,
+      "tamanho": c.tamanho,
+      "descricao": c.descricao,
+      "preco": c.preco,
+      "img": c.img,
+      "userId": c.userItem,
+    };
+
+    try {
+      DocumentReference productRef = _firestore.collection('Items').doc(id);
+
+      DocumentSnapshot productSnapshot = await productRef.get();
+      if (productSnapshot.exists) {
+        await productRef.update(itemData);
+        print('Item atualizado com sucesso');
+      } else {
+        print('Item não encontrado');
+      }
+    } catch (e) {
+      print('Erro ao atualizar o item: $e');
+    }
+  }
+
+  Future<void> excluir(String id) async {
+    try {
+      DocumentReference productRef = _firestore.collection('Items').doc(id);
+
+      await productRef.delete();
+      print('Item excluído com sucesso');
+    } catch (e) {
+      print('Erro ao excluir o documento: $e');
+    }
+  }
+
+
+
 
 Future<void> editarLoja(String id, Loja j) async {
     User? user = FirebaseAuth.instance.currentUser;
@@ -101,39 +105,12 @@ Future<void> editarLoja(String id, Loja j) async {
     }
   }
 
-
-//Excluir itens do adm loja
- Future<void> excluir(String id) async {
-    User? user = FirebaseAuth.instance.currentUser;
-    try {
-      DocumentReference productRef = _firestore
-          .collection('usersadm')
-          .doc(user?.uid)
-          .collection('Items')
-          .doc(id);
-
-      await productRef.delete(); // Exclui o documento do Firestore
-
-      print('Item $productRef Excluído com sucesso');
-    } catch (e) {
-      print('Erro ao excluir o documento: $e');
-    }
-  }
-
-//Listar itens do adm loja
+/*
   Future<List> listar() async {
-    User? user = FirebaseAuth.instance.currentUser;
-
     QuerySnapshot querySnapshot;
     List docs = [];
     try {
-      querySnapshot = await _firestore
-          .collection('usersadm')
-          .doc(user?.uid)
-          .collection('Items')
-          .orderBy("nomeitem")
-          .get();
-      _firestore.collection('Items').orderBy("nomeitem").get();
+      querySnapshot = await _firestore.collection('Items').orderBy("nomeitem").get();
       if (querySnapshot.docs.isNotEmpty) {
         for (var doc in querySnapshot.docs.toList()) {
           Map a = {
@@ -143,7 +120,8 @@ Future<void> editarLoja(String id, Loja j) async {
             "tamanho": doc["tamanho"],
             "descricao": doc["descricao"],
             "preco": doc["preco"],
-            "img": doc["img"]
+            "img": doc["img"],
+            "userId": doc["userId"],
           };
           docs.add(a);
         }
@@ -153,12 +131,67 @@ Future<void> editarLoja(String id, Loja j) async {
     }
     return docs;
   }
-  
-  //método para buscar as informações da loja com base no ID do usuário
+
+*/
+
+
+Future<List> listar() async {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (user == null) {
+    // Se o usuário não estiver logado, retornar uma lista vazia ou lançar uma exceção
+    print("Usuário não está logado.");
+    return [];
+  }
+
+  print("Usuário logado com userId: ${user.uid}");
+
+  QuerySnapshot querySnapshot;
+  List docs = [];
+  try {
+    querySnapshot = await _firestore
+        .collection('Items')
+        .where('userId', isEqualTo: user.uid) // Filtrar pelo userId do usuário logado
+        .orderBy('nomeitem')
+        .get();
+    
+    if (querySnapshot.docs.isNotEmpty) {
+      for (var doc in querySnapshot.docs.toList()) {
+        Map a = {
+          "id": doc.id,
+          "nomeitem": doc['nomeitem'],
+          "cor": doc["cor"],
+          "tamanho": doc["tamanho"],
+          "descricao": doc["descricao"],
+          "preco": doc["preco"],
+          "img": doc["img"],
+          "userId": doc["userId"],
+        };
+        docs.add(a);
+      }
+    } else {
+      print("Nenhum documento encontrado para o userId: ${user.uid}");
+    }
+  } catch (e) {
+    print('Erro ao buscar documentos: $e');
+  }
+  return docs;
+}
+
+
+
+
+
+
+
+
+
+
+
   Future<Map<String, dynamic>?> getLojaInfo(String userId) async {
     try {
       DocumentSnapshot doc = await FirebaseFirestore.instance.collection('usersadm').doc(userId).get();
-      return doc.data() as Map<String, dynamic>?; // Retorna as informações da loja
+      return doc.data() as Map<String, dynamic>?;
     } catch (e) {
       print('Erro ao buscar informações da loja: $e');
       return null;
@@ -166,15 +199,11 @@ Future<void> editarLoja(String id, Loja j) async {
   }
 
   Future<void> getData() async {
-  CollectionReference usersadm = FirebaseFirestore.instance.collection('usersadm');
-  QuerySnapshot querySnapshot = await usersadm.get();
+    CollectionReference usersadm = FirebaseFirestore.instance.collection('usersadm');
+    QuerySnapshot querySnapshot = await usersadm.get();
 
-  querySnapshot.docs.forEach((doc) {
-    print(doc.data());
-  });
-}
-
-
-
-
+    querySnapshot.docs.forEach((doc) {
+      print(doc.data());
+    });
+  }
 }

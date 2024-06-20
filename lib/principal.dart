@@ -49,9 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<bool> selectedItems = List.generate(0, (_) => false);
   final TextEditingController _filtragemController = TextEditingController();
 
-  initialize() {
+   initialize() {
     db = Database();
-    db.initiliase();
+    db.initiliaze();
     db.listar().then((value) => {
           setState(() {
             docs = value; // Atualiza a lista de registros
@@ -71,8 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute(
             builder: (context) => Formulario(
-                  null,
-                  ItemSelecionado: ItemSelec,
+                  itemSelecionado: ItemSelec,
+                  db: db,
+                  userId: null,
                 ))).then((_) {
       setState(() {
         initialize();
@@ -137,8 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _filtragemController,
-              onChanged:
-                  _filtrandoTudo, // Atualiza a lista de registros de acordo com o termo de pesquisa
+              onChanged: _filtrandoTudo, // Atualiza a lista de registros de acordo com o termo de pesquisa
               decoration: const InputDecoration(
                 hintText: 'Pesquisar',
                 prefixIcon: Icon(Icons.search),

@@ -33,10 +33,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -65,4 +62,14 @@ class DefaultFirebaseOptions {
     projectId: 'vitrine-db-e4b2d',
     storageBucket: 'vitrine-db-e4b2d.appspot.com',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCBx7bN930O6Pnrb60QjoVDFcnXT8spP7Y',
+    appId: '1:846106556704:web:e246f9779f54a41f6eff45',
+    messagingSenderId: '846106556704',
+    projectId: 'vitrine-db-e4b2d',
+    authDomain: 'vitrine-db-e4b2d.firebaseapp.com',
+    storageBucket: 'vitrine-db-e4b2d.appspot.com',
+  );
+
 }

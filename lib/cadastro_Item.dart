@@ -1,78 +1,52 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:vitrine/utils/validator.dart';
 import 'item.dart';
 import 'database.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class Formulario extends StatefulWidget {
-  Formulario(param0,
-      {Key? key, this.ItemSelecionado, this.db, this.user, this.userId})
-      : super(key: key);
+  final Map? itemSelecionado;
+  final Database? db;
+  final String? userId;
 
-  Map? ItemSelecionado;
-  Database? db;
-
-  User? user = FirebaseAuth.instance.currentUser;
-  String? userId;
+  Formulario({Key? key, this.itemSelecionado, this.db, this.userId}) : super(key: key);
 
   @override
   _FormularioState createState() => _FormularioState();
 }
 
 class _FormularioState extends State<Formulario> {
-  TextEditingController nomeitemCtrl = TextEditingController(text: '');
-  TextEditingController corCtrl = TextEditingController(text: '');
-  TextEditingController tamanhoCtrl = TextEditingController(text: '');
-  TextEditingController descricaoCtrl = TextEditingController(text: '');
-  TextEditingController precoCtrl = TextEditingController(text: '');
+  TextEditingController nomeitemCtrl = TextEditingController();
+  TextEditingController corCtrl = TextEditingController();
+  TextEditingController tamanhoCtrl = TextEditingController();
+  TextEditingController descricaoCtrl = TextEditingController();
+  TextEditingController precoCtrl = TextEditingController();
   User? user = FirebaseAuth.instance.currentUser;
 
   String imageUrl = '';
-
   bool isImageUploading = false;
   String? id;
-
-  String? get userId => user?.uid;
 
   @override
   void initState() {
     super.initState();
 
-   
-    if (widget.ItemSelecionado!['id'].toString() != null &&
-        widget.userId.toString() != null) {
-      id = widget.ItemSelecionado!['id'].toString();
-      nomeitemCtrl.text = widget.ItemSelecionado!['nomeitem'] != null
-          ? widget.ItemSelecionado!['nomeitem'].toString()
-          : '';
-      corCtrl.text = widget.ItemSelecionado!['cor'] != null
-          ? widget.ItemSelecionado!['cor'].toString()
-          : '';
-      tamanhoCtrl.text = widget.ItemSelecionado!['tamanho'] != null
-          ? widget.ItemSelecionado!['tamanho'].toString()
-          : '';
-      descricaoCtrl.text = widget.ItemSelecionado!['descricao'] != null
-          ? widget.ItemSelecionado!['descricao'].toString()
-          : '';
-      precoCtrl.text = widget.ItemSelecionado!['preco'] != null
-          ? widget.ItemSelecionado!['preco'].toString()
-          : '';
-      imageUrl = widget.ItemSelecionado!['img'].toString();
-      user = widget.userId as User?;
+    if (widget.itemSelecionado != null) {
+      id = widget.itemSelecionado!['id'];
+      nomeitemCtrl.text = widget.itemSelecionado!['nomeitem'] ?? '';
+      corCtrl.text = widget.itemSelecionado!['cor'] ?? '';
+      tamanhoCtrl.text = widget.itemSelecionado!['tamanho'] ?? '';
+      descricaoCtrl.text = widget.itemSelecionado!['descricao'] ?? '';
+      precoCtrl.text = widget.itemSelecionado!['preco'] ?? '';
+      imageUrl = widget.itemSelecionado!['img'] ?? '';
     }
   }
 
   Future<void> _uploadImage(ImageSource source) async {
-    ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: source);
+    final imagePicker = ImagePicker();
+    final file = await imagePicker.pickImage(source: source);
 
     if (file == null) return;
 
@@ -80,14 +54,10 @@ class _FormularioState extends State<Formulario> {
       isImageUploading = true;
     });
 
-    String uniqueFileName =
-        '${widget.ItemSelecionado!['id']}_${DateTime.now().millisecondsSinceEpoch}';
-
-    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('images/$uniqueFileName');
-    firebase_storage.UploadTask uploadTask = ref.putFile(File(file.path));
-    firebase_storage.TaskSnapshot taskSnapshot = await uploadTask;
+    final uniqueFileName = '${id}_${DateTime.now().millisecondsSinceEpoch}';
+    final ref = firebase_storage.FirebaseStorage.instance.ref().child('images/$uniqueFileName');
+    final uploadTask = ref.putFile(File(file.path));
+    final taskSnapshot = await uploadTask;
 
     if (taskSnapshot.state == firebase_storage.TaskState.success) {
       imageUrl = await taskSnapshot.ref.getDownloadURL();
@@ -100,149 +70,128 @@ class _FormularioState extends State<Formulario> {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        appBar: AppBar(
-            title: const Text(
-              'Cadastre seu produto...',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.black,
-            iconTheme: IconThemeData(color: Colors.white),
-            leading: BackButton(onPressed: () {
-              Navigator.pop(context);
-            })),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(10.0),
-          child: Form(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextField(
-                  controller: nomeitemCtrl,
-                  decoration: const InputDecoration(labelText: "Nome do Item"),
-                ),
-                TextField(
-                    controller: corCtrl,
-                    decoration:
-                        const InputDecoration(labelText: "Cores disponíveis")),
-                TextField(
-                    controller: tamanhoCtrl,
-                    decoration: const InputDecoration(
-                        labelText: "Tamanhos disponíveis")),
-                TextField(
-                    controller: descricaoCtrl,
-                    decoration: const InputDecoration(labelText: "Descrição")),
-                TextField(
-                    controller: precoCtrl,
-                    decoration: const InputDecoration(labelText: "Preço")),
-                Container(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Cadastre seu produto...', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
+        leading: BackButton(onPressed: () {
+          Navigator.pop(context);
+        }),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(10.0),
+        child: Form(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: nomeitemCtrl,
+                decoration: const InputDecoration(labelText: "Nome do Item"),
+              ),
+              TextField(
+                controller: corCtrl,
+                decoration: const InputDecoration(labelText: "Cores disponíveis"),
+              ),
+              TextField(
+                controller: tamanhoCtrl,
+                decoration: const InputDecoration(labelText: "Tamanhos disponíveis"),
+              ),
+              TextField(
+                controller: descricaoCtrl,
+                decoration: const InputDecoration(labelText: "Descrição"),
+              ),
+              TextField(
+                controller: precoCtrl,
+                decoration: const InputDecoration(labelText: "Preço"),
+              ),
+              Container(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            _uploadImage(ImageSource.camera);
+                          },
+                          icon: const Icon(Icons.camera_alt),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            _uploadImage(ImageSource.gallery);
+                          },
+                          icon: const Icon(Icons.image),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
+                    Container(
+                      width: 600.0,
+                      height: 500.0,
+                      child: Stack(
+                        alignment: Alignment.center,
                         children: [
-                          //ADICIONAR IMAGEM COM CAMERA
-                          IconButton(
-                            onPressed: () {
-                              _uploadImage(ImageSource.camera);
-                            },
-                            icon: const Icon(Icons.camera_alt),
-                          ),
-
-                          //ADICIONAR IMAGEM COM GALERIA
-
-                          IconButton(
-                            onPressed: () {
-                              _uploadImage(ImageSource.gallery);
-                            },
-                            icon: const Icon(Icons.image),
-                          ),
+                          if (imageUrl.isNotEmpty)
+                            Image.network(
+                              imageUrl,
+                              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                return const Center(child: Text('Erro ao carregar a imagem'));
+                              },
+                            ),
+                          if (isImageUploading)
+                            const CircularProgressIndicator(),
+                          if (imageUrl.isEmpty && !isImageUploading)
+                            const Center(child: Text('Adicione sua imagem aqui!')),
                         ],
                       ),
-                      SizedBox(height: 16.0),
-                      Container(
-                        width: 600.0,
-                        height: 500.0,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            if (imageUrl.isNotEmpty)
-                              Image.network(
-                                imageUrl,
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return const Center(
-                                      child: Text('Erro ao carregar a imagem'));
-                                },
-                              ),
-                            if (isImageUploading)
-                              const CircularProgressIndicator(),
-                            if (imageUrl.isEmpty && !isImageUploading)
-                              const Center(
-                                  child: Text('Adicione sua imagem aqui!')),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (nomeitemCtrl.text.trim().isNotEmpty) {
+                    final db = Database();
+                    final item = Item(
+                      nomeitemCtrl.text,
+                      corCtrl.text,
+                      tamanhoCtrl.text,
+                      descricaoCtrl.text,
+                      precoCtrl.text,
+                      imageUrl,
+                      user?.uid,
+                    );
+                    if (id == null) {
+                      await db.incluir(item);
+                    } else {
+                      await db.editar(id!, item);
+                    }
+                    Navigator.pop(context);
+                  }
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                child: const Text('Gravar', style: TextStyle(color: Colors.white)),
+              ),
+              if (id != null)
                 ElevatedButton(
                   onPressed: () async {
-                    if (nomeitemCtrl.text.trim() != "") {
-                      Database db = Database();
-                      if (widget.ItemSelecionado!['id'] == null) {
-                        db.incluir(Item(
-                            nomeitemCtrl.text,
-                            corCtrl.text,
-                            tamanhoCtrl.text,
-                            descricaoCtrl.text,
-                            precoCtrl.text,
-                            imageUrl,
-                            userId as User?));
-                      } else {
-                        db.editar(
-                          id!,
-                          Item(
-                            nomeitemCtrl.text,
-                            corCtrl.text,
-                            tamanhoCtrl.text,
-                            descricaoCtrl.text,
-                            precoCtrl.text,
-                            imageUrl,
-                            userId as User?,
-                          ),
-                        );
-                      }
+                    if (id != null) {
+                      final db = Database();
+                      await db.excluir(id!);
                       Navigator.pop(context);
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Colors.black,
-                  ),
-                  child: const Text('Gravar'),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                  child: const Text('Excluir', style: TextStyle(color: Colors.red)),
                 ),
-                if (widget.ItemSelecionado!['id'] != null)
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (id != null) {
-                        Database db = Database();
-                        db.excluir(id!);
-                        Navigator.pop(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.red, backgroundColor: Colors.white, 
-                    ),
-                    child: const Text('Excluir'),
-                  ),
-              ],
-            ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

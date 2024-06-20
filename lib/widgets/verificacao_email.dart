@@ -55,12 +55,12 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Text(
               'NOME: ${_currentUser.displayName}',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16.0),
             Text(
               'EMAIL: ${_currentUser.email}',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 16.0),
             _currentUser.emailVerified
@@ -68,14 +68,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     'Email verificado',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1!
+                        .bodyLarge!
                         .copyWith(color: Colors.green),
                   )
                 : Text(
                     'Email não verificado',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1!
+                        .bodyLarge!
                         .copyWith(color: Colors.red),
                   ),
             const SizedBox(height: 16.0),

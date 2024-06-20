@@ -50,11 +50,11 @@ class MyApp extends StatelessWidget {
           ),
         ),
         textTheme: const TextTheme(
-          headline1: TextStyle(
+          displayLarge: TextStyle(
             fontSize: 46.0,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
-          bodyText1: TextStyle(fontSize: 20),
+          bodyLarge: TextStyle(fontSize: 20),
         ),
       ),
       home: const LoginPage(),
