@@ -18,6 +18,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
   late String _endereco;
   late String _nomeProprietario;
   late String _telefone;
+  late String _cidade;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
     _endereco = '';
     _nomeProprietario = '';
     _telefone = '';
+    _cidade = '';
 
     _loadLojaData();
   }
@@ -48,6 +50,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
             _endereco = lojaDoc['endereco'] ?? '';
             _nomeProprietario = lojaDoc['nomeProprietario'] ?? '';
             _telefone = lojaDoc['telefone'] ?? '';
+            _cidade = lojaDoc['cidade'] ?? '';
           });
         }
       }
@@ -59,13 +62,15 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
         _endereco = '';
         _nomeProprietario = '';
         _telefone = '';
+        _cidade = '';
       });
     }
   }
 
   _editarInformacoes() async {
     TextEditingController enderecoController = TextEditingController(text: _endereco);
-    TextEditingController telefoneController = TextEditingController(text: _telefone);
+    TextEditingController telefoneController = TextEditingController(text: _telefone.substring(3)); // Remove o +55
+    String novaCidade = _cidade; // Variável para a cidade selecionada
 
     return showDialog(
       context: context,
@@ -76,6 +81,22 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              DropdownButtonFormField<String>(
+                value: novaCidade.isEmpty ? null : novaCidade,
+                items: ['Itaperuna', 'Campos dos Goytacazes', 'Macaé']
+                    .map((cidade) => DropdownMenuItem(
+                          value: cidade,
+                          child: Text(cidade),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    novaCidade = value!;
+                  });
+                },
+                decoration: InputDecoration(labelText: 'Nova Cidade'),
+              ),
+              SizedBox(height: 8.0),
               TextField(
                 controller: enderecoController,
                 decoration: InputDecoration(labelText: 'Novo Endereço'),
@@ -85,7 +106,10 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
                 controller: telefoneController,
                 decoration: InputDecoration(labelText: 'Novo Telefone'),
                 keyboardType: TextInputType.phone,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(11),
+                ],
               ),
             ],
           ),
@@ -94,17 +118,20 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancelar'),
+              child: Text('Cancelar', style: TextStyle(color: Colors.black)),
             ),
             ElevatedButton(
               onPressed: () async {
                 if (telefoneController.text.length == 11) {
+                  String telefoneAtualizado = '+55${telefoneController.text}';
+                  
                   await FirebaseFirestore.instance
                       .collection('usersadm')
                       .doc(_userId)
                       .update({
                     'endereco': enderecoController.text,
-                    'telefone': telefoneController.text,
+                    'telefone': telefoneAtualizado,
+                    'cidade': novaCidade,
                   });
 
                   await _loadLojaData();
@@ -116,7 +143,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('Erro'),
-                        content: Text('O telefone deve ter 11 dígitos.'),
+                        content: Text('O telefone deve ter 11 dígitos!'),
                         actions: [
                           ElevatedButton(
                             onPressed: () {
@@ -130,7 +157,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
                   );
                 }
               },
-              child: Text('Alterar'),
+              child: Text('Alterar', style: TextStyle(color: Colors.black)),
             ),
           ],
         );
@@ -165,21 +192,50 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildInfo('Nome da Loja:', _nomeLoja),
-              _buildInfo('CNPJ:', _cnpj),
-              _buildInfo('Endereço:', _endereco),
-              _buildInfo('Nome do Proprietário:', _nomeProprietario),
-              _buildInfo('Telefone:', _telefone),
-              const SizedBox(height: 16.0),
-            ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/background5.jpg"),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.7), 
+                  BlendMode.dstATop,
+                ),
+              ),
+            ),
           ),
-        ),
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: MediaQuery.of(context).size.height * 0.80,
+              child: Card(
+                color: Colors.white.withOpacity(0.7),
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildInfo('Nome da Loja:', _nomeLoja),
+                        _buildInfo('CNPJ:', _cnpj),
+                        _buildInfo('Endereço:', '$_endereco'),
+                        _buildInfo('Cidade:', '$_cidade'),
+                        _buildInfo('Nome do Proprietário:', _nomeProprietario),
+                        _buildInfo('Telefone:', _telefone),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

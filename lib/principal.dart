@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vitrine/componentes/side_menu.dart';
 import 'firebase_options.dart';
-import 'cadastro_Item.dart';
+import 'pages/cadastro_Item_page.dart';
 import 'database.dart';
 import 'dart:async';
 

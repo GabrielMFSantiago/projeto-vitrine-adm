@@ -25,6 +25,28 @@ class Validator {
     return null;
   }
 
+
+
+   static String? validateCidade({required String? cidade}) {
+    if (cidade == null || cidade.isEmpty) {
+      return 'Por favor, selecione uma cidade';
+    }
+
+    const List<String> cidadesPermitidas = [
+      'Itaperuna',
+      'Campos dos Goytacazes',
+      'Macaé'
+    ];
+
+    if (!cidadesPermitidas.contains(cidade)) {
+      return 'Cidade inválida. Escolha entre: Itaperuna, Campos dos Goytacazes, Macaé.';
+    }
+
+    return null;
+  }
+
+
+
   static String? validateEndereco({required String? endereco}) {
     if (endereco == null) {
       return null;

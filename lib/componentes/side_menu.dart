@@ -17,6 +17,7 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
+  bool _isLoading = false;
   String? _imagePath;
   String? _lojaNome;
   late String _userId;
@@ -102,6 +103,33 @@ class _SideMenuState extends State<SideMenu> {
     prefs.setString('image_path_$_userId', imagePath);
   }
 
+Future<void> _showImageChangeDialog() async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Alterar Imagem de Perfil'),
+        content: const Text('Você deseja alterar sua imagem de perfil?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancelar', style: TextStyle(color: Colors.black)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text('Alterar', style: TextStyle(color: Colors.black)),
+            onPressed: () {
+              _uploadImage(ImageSource.gallery); // Chame o método de upload da imagem
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
@@ -113,55 +141,62 @@ class _SideMenuState extends State<SideMenu> {
         height: double.infinity,
         color: const Color.fromARGB(255, 0, 0, 0),
         child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    _uploadImage(ImageSource.gallery); // Mudar para ImageSource.camera se desejar capturar com a câmera
-                  },
-                  child: Column(
-                    children: [
-                      ClipOval(
-                        child: SizedBox(
-                          width: 200,
-                          height: 200,
-                          child: _imagePath != null
-                              ? Image.network(
-                                  _imagePath!,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  "images/FotoPerfil.jpeg",
-                                  fit: BoxFit.cover,
-                                ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 40),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      _showImageChangeDialog();
+                    
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        ClipOval(
+                          child: SizedBox(
+                            width: 200,
+                            height: 200,
+                            child: _imagePath != null
+                                ? Image.network(
+                                    _imagePath!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    "images/FotoPerfil.jpeg",
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        _lojaNome ?? '',
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontSize: 24,
-                        ),
-                      ),
-                    ],
+                        if (_isLoading) const CircularProgressIndicator(),                       
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 190, top: 32, bottom: 16),
-                child: Text(
-                  "Escolha uma opção:".toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.white70),
+                const SizedBox(height: 16),
+                  Text(
+                   _lojaNome ?? '',
+                   style: const TextStyle(
+                   color: Color.fromARGB(255, 255, 255, 255),
+                   fontSize: 24,
+                  ),
                 ),
-              ),
-              SideMenuTitle(userid, db: db),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 190, top: 32, bottom: 16),
+                  child: Text(
+                    "Escolha uma opção:".toUpperCase(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Colors.white70),
+                  ),
+                ),
+                SideMenuTitle(userid, db: db),
+              ],
+            ),
           ),
         ),
       ),

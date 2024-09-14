@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:vitrine/widgets/login_page.dart';
+import 'package:vitrine/pages/login_page.dart';
 
 // APP DE ADMINISTRADOR - Vitrine ADM
 

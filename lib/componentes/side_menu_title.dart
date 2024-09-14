@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vitrine/widgets/infoloja_page.dart';
-import 'package:vitrine/widgets/suporte_page.dart';
+import 'package:vitrine/pages/infoloja_page.dart';
+import 'package:vitrine/pages/suporte_page.dart';
 import 'package:flutter/services.dart';
 import 'package:vitrine/database.dart';
 class SideMenuTitle extends StatelessWidget {
@@ -53,61 +53,10 @@ class SideMenuTitle extends StatelessWidget {
             height: 1,
           ),
         ),
+       
         // ----------------------------------
 
-        ListTile(
-          onTap: () {},
-          leading: SizedBox(
-            height: 34,
-            width: 34,
-            child: Image.asset(
-              "images/btndiamante.png",
-            ),
-          ),
-          title: const Text(
-            "Favoritos",
-            style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Divider(
-            color: Colors.white12,
-            height: 1,
-          ),
-        ),
-        // ----------------------------------
-
-        ListTile(
-          onTap: () {},
-          leading: SizedBox(
-            height: 34,
-            width: 34,
-            child: Image.asset(
-              "images/btnreservas.png",
-            ),
-          ),
-          title: const Text(
-            "Reservas",
-            style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Divider(
-            color: Colors.white12,
-            height: 1,
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Divider(
-            color: Colors.white12,
-            height: 1,
-          ),
-        ),
-
-        // ----------------------------------
+        
         ListTile(
           onTap: () async {
             User? user = FirebaseAuth.instance.currentUser;
@@ -169,7 +118,7 @@ class SideMenuTitle extends StatelessWidget {
         // ----------------------------------
         GestureDetector(
           onTap: () {
-            showDialog(
+           showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
@@ -177,15 +126,15 @@ class SideMenuTitle extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop(); 
+                        Navigator.of(context).pop();
                       },
-                      child: const Text("Cancelar"),
+                      child: const Text("Cancelar", style: TextStyle(color: Colors.black)),
                     ),
                     TextButton(
                       onPressed: () {
-                        SystemNavigator.pop(); // Fechar completamente o aplicativo
+                        SystemNavigator.pop();
                       },
-                      child: const Text("Sair"),
+                      child: const Text("Sair", style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 );
