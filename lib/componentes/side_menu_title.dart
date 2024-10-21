@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vitrine/pages/infoloja_page.dart';
+import 'package:vitrine/pages/login_page.dart';
 import 'package:vitrine/pages/suporte_page.dart';
 import 'package:flutter/services.dart';
 import 'package:vitrine/database.dart';
@@ -116,9 +117,9 @@ class SideMenuTitle extends StatelessWidget {
           ),
         ),
         // ----------------------------------
-        GestureDetector(
+         GestureDetector(
           onTap: () {
-           showDialog(
+            showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
@@ -131,8 +132,12 @@ class SideMenuTitle extends StatelessWidget {
                       child: const Text("Cancelar", style: TextStyle(color: Colors.black)),
                     ),
                     TextButton(
-                      onPressed: () {
-                        SystemNavigator.pop();
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                          (Route<dynamic> route) => false,
+                        );
                       },
                       child: const Text("Sair", style: TextStyle(color: Colors.black)),
                     ),

@@ -374,7 +374,7 @@ Widget build(BuildContext context) {
   void _navigateToHome() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const MyApp(),
+        builder: (context) => const Principal(),
       ),
     );
   }
