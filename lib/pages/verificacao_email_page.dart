@@ -22,7 +22,7 @@ class _VerificacaoEmailPageState extends State<VerificacaoEmailPage> {
   void initState() {
     _currentUser = widget.user;
     super.initState();
-    _checkEmailVerification(); // Adiciona a verificação no início
+    _checkEmailVerification(); 
   }
 
   Future<void> _checkEmailVerification() async {
@@ -45,7 +45,7 @@ class _VerificacaoEmailPageState extends State<VerificacaoEmailPage> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Remova a seta de voltar
+        automaticallyImplyLeading: false, 
         title: const Text('Verificação de login', style: TextStyle(color: Colors.white),),
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       ),
@@ -89,7 +89,7 @@ class _VerificacaoEmailPageState extends State<VerificacaoEmailPage> {
                           setState(() {
                             _isSendingVerification = false;
                           });
-                           // ignore: use_build_context_synchronously
+                          
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -102,7 +102,7 @@ class _VerificacaoEmailPageState extends State<VerificacaoEmailPage> {
                                 actions: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      Navigator.pop(context); // Fecha o pop-up
+                                      Navigator.pop(context); 
                                     },
                                     child: Text(
                                       'OK',

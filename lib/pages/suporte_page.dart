@@ -31,7 +31,7 @@ class _SuportePageState extends State<SuportePage> {
                 image: AssetImage("images/background5.jpg"),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.white.withOpacity(0.7), // ajuste a opacidade conforme necessário
+                  Colors.white.withOpacity(0.7), 
                   BlendMode.dstATop,
                 ),
               ),

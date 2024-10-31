@@ -10,7 +10,7 @@ import 'package:vitrine/pages/suporte_page.dart';
 // APP DE CLIENTE - Vitrine
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Garante a inicialização do Firebase antes de rodar o app
+  await Firebase.initializeApp();
   print("Firebase inicializado com sucesso!");
   runApp(MyApp());
 }

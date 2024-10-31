@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vitrine/principal.dart';
-import 'login_page.dart'; // Importa a tela de Login
+import 'login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     } catch (e) {
       print("Erro ao verificar login: $e");
-      // Opcional: navegar para a tela de erro, ou refazer a tentativa de login
+      
     }
   }
 
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(), // Exibe um indicador enquanto verifica o login
+        child: CircularProgressIndicator(), 
       ),
     );
   }

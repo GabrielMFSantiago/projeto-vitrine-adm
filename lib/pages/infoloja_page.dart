@@ -70,7 +70,7 @@ class _InfoLojaPageState extends State<InfoLojaPage> {
   _editarInformacoes() async {
     TextEditingController enderecoController = TextEditingController(text: _endereco);
     TextEditingController telefoneController = TextEditingController(text: _telefone.substring(3)); // Remove o +55
-    String novaCidade = _cidade; // Variável para a cidade selecionada
+    String novaCidade = _cidade;
 
     return showDialog(
       context: context,

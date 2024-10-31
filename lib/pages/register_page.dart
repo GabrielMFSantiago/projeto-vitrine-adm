@@ -63,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   try {
-    // Adiciona informações na coleção 'usersadm'
+   
     await usersadm.doc(userId).set({
       'nome': nomeLoja,
       'cnpj': cnpj,
@@ -75,7 +75,6 @@ class _RegisterPageState extends State<RegisterPage> {
       'isAdm': true, // Define isAdm como true para a coleção 'usersadm'
     });
 
-    // Adiciona informações na coleção 'users'
     await users.doc(userId).set({
       'email': email,
       'isAdm': true, // Define isAdm como true para a coleção 'users'
