@@ -1,22 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:vitrine/componentes/side_menu.dart';
+import 'package:vitrine/pages/loading_page.dart';
 import 'package:vitrine/pages/login_page.dart';
+import 'package:vitrine/pages/splashScreen.dart';
+import 'package:vitrine/pages/suporte_page.dart';
 
-// APP DE ADMINISTRADOR - Vitrine ADM
 
+// APP DE CLIENTE - Vitrine
 void main() async {
-  // Adicione esta linha
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  print("Firebase inicializado com sucesso!");
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
-    MaterialColor blackSwatch = const MaterialColor(
-      0xFF000000,
+    MaterialColor blackSwatch = MaterialColor(
+      0xFF000000, 
       <int, Color>{
         50: Color(0xFF000000),
         100: Color(0xFF000000),
@@ -42,22 +47,22 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+            backgroundColor: Color.fromARGB(255, 0, 0, 0),
             textStyle: const TextStyle(
               fontSize: 24.0,
             ),
             padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
           ),
         ),
-        textTheme: const TextTheme(
+        textTheme: TextTheme(
           displayLarge: TextStyle(
             fontSize: 46.0,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
-          bodyLarge: TextStyle(fontSize: 20),
+          bodyLarge: const TextStyle(fontSize: 20),
         ),
       ),
-      home: const LoginPage(),
+      home:  SplashScreen(),
     );
   }
 }

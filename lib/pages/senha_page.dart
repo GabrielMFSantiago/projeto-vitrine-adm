@@ -18,7 +18,7 @@ class SenhaPage extends StatelessWidget {
       );
 
       
-     // ignore: use_build_context_synchronously
+    
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -29,8 +29,8 @@ class SenhaPage extends StatelessWidget {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); // Fecha o pop-up
-                  Navigator.pop(context); // Fecha a página SenhaPage e retorna para a LoginPage
+                  Navigator.pop(context); 
+                  Navigator.pop(context); 
                 },
                 child: const Text(
                   'OK',
@@ -43,7 +43,7 @@ class SenhaPage extends StatelessWidget {
         },
       );
     } catch (e) {
-      print('Error: $e'); // Exibe um erro, se ocorrer
+      print('Error: $e'); 
     }
   }
 

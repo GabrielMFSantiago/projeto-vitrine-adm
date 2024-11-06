@@ -1,1 +1,39 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"vitrine-db-e4b2d","appId":"1:846106556704:android:7e831e8e986ad3986eff45","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"vitrine-db-e4b2d","configurations":{"android":"1:846106556704:android:7e831e8e986ad3986eff45","web":"1:846106556704:web:6f8a823b352a57bb6eff45","windows":"1:846106556704:web:e246f9779f54a41f6eff45"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "vitrine-db-e4b2d",
+          "appId": "1:846106556704:android:7e831e8e986ad3986eff45",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "vitrine-db-e4b2d",
+          "configurations": {
+            "android": "1:846106556704:android:7e831e8e986ad3986eff45",
+            "web": "1:846106556704:web:6f8a823b352a57bb6eff45",
+            "windows": "1:846106556704:web:e246f9779f54a41f6eff45"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

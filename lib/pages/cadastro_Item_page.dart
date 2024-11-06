@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import para acessar Firestore
 import '../item.dart';
 import '../database.dart';
+import 'package:intl/intl.dart';
+
 
 class Formulario extends StatefulWidget {
   final Map? itemSelecionado;
@@ -18,6 +21,7 @@ class Formulario extends StatefulWidget {
 }
 
 class _FormularioState extends State<Formulario> {
+  
   TextEditingController nomeitemCtrl = TextEditingController();
   TextEditingController corCtrl = TextEditingController();
   TextEditingController tamanhoCtrl = TextEditingController();
@@ -28,6 +32,7 @@ class _FormularioState extends State<Formulario> {
   String imageUrl = '';
   bool isImageUploading = false;
   String? id;
+  String? cidadeUsuario; 
 
   @override
   void initState() {
@@ -41,6 +46,24 @@ class _FormularioState extends State<Formulario> {
       descricaoCtrl.text = widget.itemSelecionado!['descricao'] ?? '';
       precoCtrl.text = widget.itemSelecionado!['preco'] ?? '';
       imageUrl = widget.itemSelecionado!['img'] ?? '';
+    }
+
+    _buscarCidadeUsuario();
+  }
+
+  // Função para buscar a cidade do usuário na coleção 'usersadm'
+  Future<void> _buscarCidadeUsuario() async {
+    if (user?.uid != null) {
+      final userDoc = await FirebaseFirestore.instance
+          .collection('usersadm')
+          .doc(user!.uid)
+          .get();
+
+      if (userDoc.exists) {
+        setState(() {
+          cidadeUsuario = userDoc.data()?['cidade']; 
+        });
+      }
     }
   }
 
@@ -152,30 +175,54 @@ class _FormularioState extends State<Formulario> {
                   ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (nomeitemCtrl.text.trim().isNotEmpty) {
-                    final db = Database();
-                    final item = Item(
-                      nomeitemCtrl.text,
-                      corCtrl.text,
-                      tamanhoCtrl.text,
-                      descricaoCtrl.text,
-                      precoCtrl.text,
-                      imageUrl,
-                      user?.uid,
-                    );
-                    if (id == null) {
-                      await db.incluir(item);
-                    } else {
-                      await db.editar(id!, item);
-                    }
-                    Navigator.pop(context);
-                  }
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                child: const Text('Gravar', style: TextStyle(color: Colors.white)),
-              ),
+             ElevatedButton(
+            onPressed: () async {
+              if (nomeitemCtrl.text.trim().isNotEmpty) {
+                final db = Database();
+                final timestamp = DateTime.now().toIso8601String();
+
+                // Recupera a cidade do usuário a partir da coleção 'usersadm'
+                final userCidade = await db.getUserCidade(user!.uid);
+
+                // Verifica se a cidade foi recuperada
+                if (userCidade == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Erro ao recuperar a cidade do usuário')),
+                  );
+                  return;
+                }
+                
+                String precoFormatado = NumberFormat('#,##0.00', 'pt_BR').format(
+                  double.tryParse(precoCtrl.text.replaceAll(',', '.')) ?? 0,
+                );
+
+                
+                final item = Item(
+                  nomeitemCtrl.text,
+                  corCtrl.text,
+                  tamanhoCtrl.text,
+                  descricaoCtrl.text,
+                  precoFormatado,
+                  imageUrl,
+                  user?.uid,
+                  cidade: userCidade,  
+                  timestamp: timestamp,
+                );
+
+                if (id == null) {
+                  await db.incluir(item);
+                } else {
+                  await db.editar(id!, item);
+                }
+
+                Navigator.pop(context);
+              }
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+            child: const Text('Gravar', style: TextStyle(color: Colors.white)),
+          ),
+
+
               if (id != null)
                 ElevatedButton(
                   onPressed: () async {

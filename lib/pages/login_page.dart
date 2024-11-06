@@ -21,10 +21,8 @@ chamarTela(BuildContext context, StatelessWidget widget) {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
-
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
 
@@ -34,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-
     _initializeFirebase();
   }
 
@@ -126,30 +123,72 @@ Future<void> _checkIsAdm(String email) async {
       }
     } else {
       // Usuário não encontrado, exibe diálogo de erro
-      _showAccessDeniedDialog();
+      _showAccessoInexistenteDialog();
     }
   } catch (e) {
     print('Erro ao verificar isAdm: $e');
   }
 }
 
+
 void _showAccessDeniedDialog() {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Acesso Negado'),
+        backgroundColor: Colors.white, 
+        title: const Text(
+          'Acesso Negado',
+          style: TextStyle(color: Colors.black), 
+        ),
         content: const Text(
           'Esse email já está registrado como Cliente. Acesse o aplicativo VITRINE!',
+          style: TextStyle(color: Colors.black), 
         ),
         actions: [
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black, 
+            ),
             child: const Text(
               'OK',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white), 
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showAccessoInexistenteDialog() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.white, 
+        title: const Text(
+          'Acesso Negado',
+          style: TextStyle(color: Colors.black), 
+        ),
+        content: const Text(
+          'Cadastro não encontrado para este e-mail!',
+          style: TextStyle(color: Colors.black), 
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black, 
+            ),
+            child: const Text(
+              'OK',
+              style: TextStyle(color: Colors.white), 
             ),
           ),
         ],
@@ -374,7 +413,7 @@ Widget build(BuildContext context) {
   void _navigateToHome() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const MyApp(),
+        builder: (context) => const Principal(),
       ),
     );
   }
