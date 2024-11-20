@@ -14,7 +14,7 @@ class Formulario extends StatefulWidget {
   final Database? db;
   final String? userId;
 
-  Formulario({Key? key, this.itemSelecionado, this.db, this.userId}) : super(key: key);
+  const Formulario({Key? key, this.itemSelecionado, this.db, this.userId}) : super(key: key);
 
   @override
   _FormularioState createState() => _FormularioState();

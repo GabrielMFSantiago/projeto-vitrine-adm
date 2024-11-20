@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:vitrine/pages/infoloja_page.dart';
 import 'package:vitrine/pages/login_page.dart';
 import 'package:vitrine/pages/suporte_page.dart';
-import 'package:flutter/services.dart';
 import 'package:vitrine/database.dart';
+
 class SideMenuTitle extends StatelessWidget {
 
   String? userId;

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  bool _isLoading = false;
+  final bool _isLoading = false;
   String? _imagePath;
   String? _lojaNome;
   late String _userId;
@@ -35,13 +34,16 @@ class _SideMenuState extends State<SideMenu> {
   Future<void> _initUserId() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      print('Usuário autenticado: ${user.uid}');
+      //somente teste do usuário no pront
+      //COLOCAR MENSAGEM NA TELA
+      //print('Usuário autenticado: ${user.uid}');
       setState(() {
         _userId = user.uid;
         _loadLojaNome();
       });
     } else {
-      print('Usuário não autenticado');
+      //colocar mensagem na tela
+      //print('Usuário não autenticado');
     }
   }
 
@@ -59,7 +61,9 @@ class _SideMenuState extends State<SideMenu> {
           });
         }
       } catch (e) {
-        print('Erro ao carregar o nome da loja: $e');
+        //somente mensagem de teste
+        //COLOCAR MENSAGEM NA TELA 
+        //print('Erro ao carregar o nome da loja: $e');
       }
     }
   }
