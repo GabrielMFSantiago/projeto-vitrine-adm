@@ -1,18 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:vitrine/componentes/side_menu.dart';
-import 'package:vitrine/pages/loading_page.dart';
-import 'package:vitrine/pages/login_page.dart';
 import 'package:vitrine/pages/splashScreen.dart';
-import 'package:vitrine/pages/suporte_page.dart';
-
+import 'firebase_options.dart';
 
 // APP DE CLIENTE - Vitrine
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   print("Firebase inicializado com sucesso!");
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MaterialColor blackSwatch = MaterialColor(
+    MaterialColor blackSwatch = const MaterialColor(
       0xFF000000, 
       <int, Color>{
         50: Color(0xFF000000),
@@ -54,12 +52,12 @@ class MyApp extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
           ),
         ),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           displayLarge: TextStyle(
             fontSize: 46.0,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
-          bodyLarge: const TextStyle(fontSize: 20),
+          bodyLarge: TextStyle(fontSize: 20),
         ),
       ),
       home:  SplashScreen(),

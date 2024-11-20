@@ -24,20 +24,20 @@ class DefaultFirebaseOptions {
         return android;
       case TargetPlatform.iOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for iOS. '
+          'Reconfigure this by running the FlutterFire CLI.',
         );
       case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for macOS. '
+          'Reconfigure this by running the FlutterFire CLI.',
         );
       case TargetPlatform.windows:
         return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for Linux. '
+          'Reconfigure this by running the FlutterFire CLI.',
         );
       default:
         throw UnsupportedError(
@@ -53,6 +53,7 @@ class DefaultFirebaseOptions {
     projectId: 'vitrine-db-e4b2d',
     authDomain: 'vitrine-db-e4b2d.firebaseapp.com',
     storageBucket: 'vitrine-db-e4b2d.appspot.com',
+    measurementId: 'G-MEASUREMENT_ID', // Opcional para Analytics
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -71,5 +72,4 @@ class DefaultFirebaseOptions {
     authDomain: 'vitrine-db-e4b2d.firebaseapp.com',
     storageBucket: 'vitrine-db-e4b2d.appspot.com',
   );
-
 }
